@@ -649,33 +649,66 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "servicos") {
 }
 
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionar") {
-	$id_orc = $_GET['id'];
-	$id_prod = $_GET['id_prod'];
+    $id_orc = $_GET['id'];
+    $id_prod = $_GET['id_prod'];
 
-	if(!isset($_GET["funcao3"])){
-		$pdo->query("INSERT INTO orc_prod SET orcamento = '$id_orc', produto = '$id_prod'");
-	}
-	
-	
-	echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhes';</script>";
-	
+    if (!isset($_GET["funcao3"])) {
+        $query = $pdo->prepare("SELECT COUNT(*) FROM orc_prod WHERE orcamento = :orcamento AND produto = :produto");
+        $query->execute([
+            ':orcamento' => $id_orc,
+            ':produto' => $id_prod
+        ]);
+        $existe = $query->fetchColumn();
+
+        if ($existe == 0) {
+            $stmt = $pdo->prepare("INSERT INTO orc_prod (orcamento, produto) VALUES (:orcamento, :produto)");
+            $stmt->execute([
+                ':orcamento' => $id_orc,
+                ':produto' => $id_prod
+            ]);
+        } else {
+            echo "<script>alert('Produto já foi adicionado anteriormente.');</script>";
+        }
+    }
+
+    echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhes';</script>";
 }
+
+
 
 
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ") {
-	$id_orc = $_GET['id'];
-	$id_serv = $_GET['id_serv'];
+    $id_orc = $_GET['id'];
+    $id_serv = $_GET['id_serv'];
 
-	if(!isset($_GET["funcao3"])){
-		$pdo->query("INSERT INTO orc_serv SET orcamento = '$id_orc', servico = '$id_serv'");
+    if (!isset($_GET["funcao3"])) {
+        $query = $pdo->prepare("SELECT COUNT(*) FROM orc_serv WHERE orcamento = :orcamento AND servico = :servico");
+        $query->execute([
+            ':orcamento' => $id_orc,
+            ':servico' => $id_serv
+        ]);
+        $existe = $query->fetchColumn();
 
-		$pdo->query("UPDATE orcamentos SET servico = '$id_serv' where id = '$id_orc'");
-	}
-	
-	
-	echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ';</script>";
-	
+        if ($existe == 0) {
+            $stmt = $pdo->prepare("INSERT INTO orc_serv (orcamento, servico) VALUES (:orcamento, :servico)");
+            $stmt->execute([
+                ':orcamento' => $id_orc,
+                ':servico' => $id_serv
+            ]);
+
+            $update = $pdo->prepare("UPDATE orcamentos SET servico = :servico WHERE id = :id");
+            $update->execute([
+                ':servico' => $id_serv,
+                ':id' => $id_orc
+            ]);
+        } else {
+            echo "<script>alert('Serviço já foi adicionado anteriormente.');</script>";
+        }
+    }
+
+    echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ';</script>";
 }
+
 
 
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "detalhes") {

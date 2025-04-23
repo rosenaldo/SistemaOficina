@@ -36,10 +36,10 @@ if($veiculo == ""){
 	exit();
 }
 
-if($valor == ""){
-	echo 'O Valor é Obrigatório!';
-	exit();
-}
+// if($valor == ""){
+// 	echo 'O Valor é Obrigatório!';
+// 	exit();
+// }
 
 
 

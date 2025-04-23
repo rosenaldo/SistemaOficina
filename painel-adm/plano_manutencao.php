@@ -632,64 +632,106 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "preditiva") {
 	echo "<script>$('#modal-preditiva').modal('show');</script>";
 }
 
-if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionar") {
-	$id_orc = $_GET['id'];
-	$id_prod = $_GET['id_prod'];
-
-	if(!isset($_GET["funcao3"])){
-		$pdo->query("INSERT INTO orc_prod SET orcamento = '$id_orc', produto = '$id_prod'");
-	}
-	
-	
-	echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhes';</script>";
-	
-}
-
 
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ") {
-	$id_orc = $_GET['id'];
-	$id_serv = $_GET['id_serv'];
+    $id_orc = $_GET['id'];
+    $id_serv = $_GET['id_serv'];
 
-	if(!isset($_GET["funcao3"])){
-		$pdo->query("INSERT INTO pcm_preventiva SET pcm = '$id_orc', servico = '$id_serv'");
+    if (!isset($_GET["funcao3"])) {
+        $query = $pdo->prepare("SELECT COUNT(*) FROM pcm_preventiva WHERE pcm = :pcm AND servico = :servico");
+        $query->execute([
+            ':pcm' => $id_orc,
+            ':servico' => $id_serv
+        ]);
+        $existe = $query->fetchColumn();
 
-		$pdo->query("UPDATE pcm SET servico = '$id_serv' where id = '$id_orc'");
-	}
-	
-	
-	echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ';</script>";
-	
+        if ($existe == 0) {
+            $stmt = $pdo->prepare("INSERT INTO pcm_preventiva (pcm, servico) VALUES (:pcm, :servico)");
+            $stmt->execute([
+                ':pcm' => $id_orc,
+                ':servico' => $id_serv
+            ]);
+
+            $update = $pdo->prepare("UPDATE pcm SET servico = :servico WHERE id = :id");
+            $update->execute([
+                ':servico' => $id_serv,
+                ':id' => $id_orc
+            ]);
+        } else {
+            echo "<script>alert('Serviço já foi adicionado anteriormente.');</script>";
+        }
+    }
+
+    echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ';</script>";
 }
+
 
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ2") {
-	$id_orc = $_GET['id'];
-	$id_serv = $_GET['id_serv'];
+    $id_orc = $_GET['id'];
+    $id_serv = $_GET['id_serv'];
 
-	if(!isset($_GET["funcao3"])){
-		$pdo->query("INSERT INTO pcm_corretiva SET pcm = '$id_orc', servico = '$id_serv'");
+    if (!isset($_GET["funcao3"])) {
+        $query = $pdo->prepare("SELECT COUNT(*) FROM pcm_corretiva WHERE pcm = :pcm AND servico = :servico");
+        $query->execute([
+            ':pcm' => $id_orc,
+            ':servico' => $id_serv
+        ]);
+        $existe = $query->fetchColumn();
 
-		$pdo->query("UPDATE pcm SET servico = '$id_serv' where id = '$id_orc'");
-	}
-	
-	
-	echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ2';</script>";
-	
+        if ($existe == 0) {
+            $stmt = $pdo->prepare("INSERT INTO pcm_corretiva (pcm, servico) VALUES (:pcm, :servico)");
+            $stmt->execute([
+                ':pcm' => $id_orc,
+                ':servico' => $id_serv
+            ]);
+
+            $update = $pdo->prepare("UPDATE pcm SET servico = :servico WHERE id = :id");
+            $update->execute([
+                ':servico' => $id_serv,
+                ':id' => $id_orc
+            ]);
+        } else {
+            echo "<script>alert('Serviço já foi adicionado anteriormente.');</script>";
+        }
+    }
+
+    echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ2';</script>";
 }
+
+
 
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ3") {
-	$id_orc = $_GET['id'];
-	$id_serv = $_GET['id_serv'];					   
+    $id_orc = $_GET['id'];
+    $id_serv = $_GET['id_serv'];					   
 
-	if(!isset($_GET["funcao3"])){
-		$pdo->query("INSERT INTO pcm_preditiva SET pcm = '$id_orc', servico = '$id_serv'");
+    if (!isset($_GET["funcao3"])) {
+        $query = $pdo->prepare("SELECT COUNT(*) FROM pcm_preditiva WHERE pcm = :pcm AND servico = :servico");
+        $query->execute([
+            ':pcm' => $id_orc,
+            ':servico' => $id_serv
+        ]);
+        $existe = $query->fetchColumn();
 
-		$pdo->query("UPDATE pcm SET servico = '$id_serv' where id = '$id_orc'");
-	}
-	
-	
-	echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ3';</script>";
-	
+        if ($existe == 0) {
+            $stmt = $pdo->prepare("INSERT INTO pcm_preditiva (pcm, servico) VALUES (:pcm, :servico)");
+            $stmt->execute([
+                ':pcm' => $id_orc,
+                ':servico' => $id_serv
+            ]);
+
+            $update = $pdo->prepare("UPDATE pcm SET servico = :servico WHERE id = :id");
+            $update->execute([
+                ':servico' => $id_serv,
+                ':id' => $id_orc
+            ]);
+        } else {
+            echo "<script>alert('Serviço já foi adicionado anteriormente.');</script>";
+        }
+    }
+
+    echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ3';</script>";
 }
+
 
 
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "detalhes") {

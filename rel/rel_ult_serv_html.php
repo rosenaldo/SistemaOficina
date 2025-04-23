@@ -33,7 +33,7 @@ $valor_f = number_format($valor, 2, ',', '.');
 
 $query_mec = $pdo->query("SELECT * FROM mecanicos where cpf = '$mecanico' ");
 $res_mec = $query_mec->fetchAll(PDO::FETCH_ASSOC);
-$nome_mecanico = $res_mec[0]['nome'];
+$nome_mecanico = !empty($res_mec[0]['nome']) ? $res_mec[0]['nome'] : null;
 
 
 $query_cli = $pdo->query("SELECT * FROM clientes where cpf = '$cpf_cliente' ");
@@ -183,7 +183,7 @@ $km = $res_vei[0]['km'];
 		<div class="container">
 			<div class="row titulos">
 				<div class="col-sm-2 esquerda_float image">	
-					<img src="../img/logo2.png" width="100px">
+					<!-- <img src="../img/logo2.png" width="100px"> -->
 				</div>
 				<div class="col-sm-10 esquerda_float">	
 					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>

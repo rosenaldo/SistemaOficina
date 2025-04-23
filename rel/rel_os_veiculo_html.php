@@ -174,7 +174,7 @@ $email_cli = !empty($res_mec[0]['email']) ? $res_mec[0]['email'] : null;
 		<div class="container">
 			<div class="row titulos">
 				<div class="col-sm-2 esquerda_float image">	
-					<img src="../img/logo2.png" width="100px">
+					<!-- <img src="../img/logo2.png" width="100px"> -->
 				</div>
 				<div class="col-sm-10 esquerda_float">	
 					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
@@ -329,7 +329,7 @@ $email_cli = !empty($res_mec[0]['email']) ? $res_mec[0]['email'] : null;
 						
 						$query_cat = $pdo->query("SELECT * FROM mecanicos where cpf = '$mecanico' ");
 						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_mecanico = $res_cat[0]['nome'];
+						$nome_mecanico = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : null;
 
 						?>
 

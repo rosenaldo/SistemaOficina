@@ -158,12 +158,7 @@ if($nivel_est > 0){
                         <i class="fas fa-fw fa-tools"></i>
                         <span class="">Tipo Serviço</span></a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?pag=<?php echo $menu10 ?>">
-                    <i class="fas fa-paste fa-chart-area"></i>
-                    <span class="">Gerar Orçamento</span></a>
-                </li>
+                
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManutencao" aria-expanded="true" aria-controls="collapseManutencao">
@@ -178,6 +173,13 @@ if($nivel_est > 0){
 
                         </div>
                     </div>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?pag=<?php echo $menu10 ?>">
+                    <i class="fas fa-paste fa-chart-area"></i>
+                    <span class="">Gerar Orçamento</span></a>
                 </li>
 
                 <!-- Divider -->
@@ -292,7 +294,7 @@ if($nivel_est > 0){
                         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                             <i class="fa fa-bars"></i>
                         </button>
-                        <img class="" src="../img/logo2.png" width="85">
+                        <!-- <img class="" src="../img/logo2.png" width="85"> -->
 
 
 

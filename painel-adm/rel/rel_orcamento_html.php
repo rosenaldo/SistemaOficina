@@ -181,7 +181,7 @@ $km = $res_vei[0]['km'];
 		<div class="container">
 			<div class="row titulos">
 				<div class="col-sm-2 esquerda_float image">	
-					<img src="../../img/logo2.png" width="100px">
+					<!-- <img src="../../img/logo2.png" width="100px"> -->
 				</div>
 				<div class="col-sm-10 esquerda_float">	
 					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>

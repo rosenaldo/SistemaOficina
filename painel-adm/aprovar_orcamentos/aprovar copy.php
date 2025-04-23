@@ -114,46 +114,36 @@ if($total_reg == 0){
 
 
 //CONCLUIR STATUS DO ORÇAMENTO
-$id_orc = $_POST['id']; // Esse é o ID do orçamento
 
-// Buscar OS que corresponde ao orçamento
-$query = $pdo->prepare("SELECT * FROM os WHERE id_orc = :id_orc");
-$query->execute([':id_orc' => $id_orc]);
-$res = $query->fetchAll(PDO::FETCH_ASSOC);
+$id_os = $_POST['id'];
 
-if (count($res) > 0) {
-    $id_os = $res[0]['id'];
-    $mecanico = $res[0]['mecanico'];
-    $tipo = $res[0]['tipo'];
-    $veiculo = $res[0]['veiculo'];
+$query = $pdo->query("SELECT * FROM os where id = '$id' ");
+	$res = $query->fetchAll(PDO::FETCH_ASSOC);
+	$mecanico = $res[0]['mecanico'];
+	$tipo = $res[0]['tipo'];
+	$id = $res[0]['id_orc'];
+	$veiculo = $res[0]['veiculo'];
+	
 
-    // Atualizar status do orçamento se for do tipo "Orçamento"
-    if ($tipo === 'Orçamento') {
-        $stmt = $pdo->prepare("UPDATE orcamentos SET status = 'Concluído' WHERE id = :id_orc");
-        $stmt->execute([':id_orc' => $id_orc]);
-    }
+	if($tipo == 'Orçamento'){
+		$pdo->query("UPDATE orcamentos SET status = 'Concluído' WHERE id = '$id'");
+	}
+	
+	$pdo->query("UPDATE os SET concluido = 'Sim' WHERE id = '$id_os'");
+	
+	
+	//LANÇAR NA TABELA DE RETORNOS
+	$query = $pdo->query("SELECT * FROM retornos where veiculo = '$veiculo' ");
+		$res = $query->fetchAll(PDO::FETCH_ASSOC);
+		if(@count($res) == 0){
+			$pdo->query("INSERT INTO retornos SET veiculo = '$veiculo', data_serv = curDate(), data_contato = curDate()");
+		}else{
+			$pdo->query("UPDATE retornos SET data_serv = curDate(), data_contato = curDate() WHERE veiculo = '$veiculo'");
+		}
 
-    // Marcar a OS como concluída
-    $stmt = $pdo->prepare("UPDATE os SET concluido = 'Sim' WHERE id = :id_os");
-    $stmt->execute([':id_os' => $id_os]);
 
-    // Atualizar ou inserir retorno
-    $query_ret = $pdo->prepare("SELECT * FROM retornos WHERE veiculo = :veiculo");
-    $query_ret->execute([':veiculo' => $veiculo]);
-    $res_ret = $query_ret->fetchAll(PDO::FETCH_ASSOC);
 
-    if (count($res_ret) == 0) {
-        $stmt = $pdo->prepare("INSERT INTO retornos (veiculo, data_serv, data_contato) VALUES (:veiculo, curDate(), curDate())");
-        $stmt->execute([':veiculo' => $veiculo]);
-    } else {
-        $stmt = $pdo->prepare("UPDATE retornos SET data_serv = curDate(), data_contato = curDate() WHERE veiculo = :veiculo");
-        $stmt->execute([':veiculo' => $veiculo]);
-    }
 
-    echo 'Aprovado com Sucesso!';
-} else {
-    echo 'Erro: OS não encontrada.';
-}
-
+echo 'Aprovado com Sucesso!';
 
 ?>
