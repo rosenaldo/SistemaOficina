@@ -1,10 +1,10 @@
 <?php 
 @session_start();
-if(@$_SESSION['nivel_usuario'] == null || @$_SESSION['nivel_usuario'] != 'admin'){
+if(@$_SESSION['nivel_usuario'] == null || @$_SESSION['nivel_usuario'] != 'mecanico'){
     echo "<script language='javascript'> window.location='../index.php' </script>";
 }
 
-$pag = "mecanicos";
+$pag = "cadastrar_manutencao";
 require_once("../conexao.php"); 
 
 
@@ -12,10 +12,12 @@ require_once("../conexao.php");
 ?>
 
 <div class="row mt-4 mb-4">
-	<a type="button" class="btn-secondary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Novo Mecânico</a>
+	<a type="button" class="btn-secondary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Tipo PCM</a>
 	<a type="button" class="btn-primary btn-sm ml-3 d-block d-sm-none" href="index.php?pag=<?php echo $pag ?>&funcao=novo">+</a>
 
 </div>
+
+
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -26,10 +28,7 @@ require_once("../conexao.php");
 				<thead>
 					<tr>
 						<th>Nome</th>
-						<th>CPF</th>
-						<th>Telefone</th>
-						<th>Email</th>
-						<th>Endereço</th>
+						
 						<th>Ações</th>
 					</tr>
 				</thead>
@@ -38,26 +37,20 @@ require_once("../conexao.php");
 
 					<?php 
 
-					$query = $pdo->query("SELECT * FROM mecanicos order by id desc ");
+					$query = $pdo->query("SELECT * FROM tipo_pcm order by id desc ");
 					$res = $query->fetchAll(PDO::FETCH_ASSOC);
 					
 					for ($i=0; $i < @count($res); $i++) { 
 						foreach ($res[$i] as $key => $value) {
 						}
-						$nome = $res[$i]['nome'];
-						$cpf = $res[$i]['cpf'];
-						$telefone = $res[$i]['telefone'];
-						$endereco = $res[$i]['endereco'];
-						$email = $res[$i]['email'];
+						$nome = $res[$i]['descricao'];
+						
 						$id = $res[$i]['id'];
+
 						?>
 
 						<tr>
 							<td><?php echo $nome ?></td>
-							<td><?php echo $cpf ?></td>
-							<td><?php echo $telefone ?></td>
-							<td><?php echo $email ?></td>
-							<td><?php echo $endereco ?></td>
 
 							<td>
 								<a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
@@ -73,6 +66,9 @@ require_once("../conexao.php");
 </div>
 
 
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="modalDados" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -83,19 +79,15 @@ require_once("../conexao.php");
 					$titulo = "Editar Registro";
 					$id2 = $_GET['id'];
 
-					$query = $pdo->query("SELECT * FROM mecanicos where id = '$id2' ");
+					$query = $pdo->query("SELECT * FROM tipo_pcm where id = '$id2' ");
 					$res = $query->fetchAll(PDO::FETCH_ASSOC);
 					$nome2 = $res[0]['nome'];
-					$cpf2 = $res[0]['cpf'];
-					$telefone2 = $res[0]['telefone'];
-					$email2 = $res[0]['email'];
-					$endereco2 = $res[0]['endereco'];
-
-
+					
 				} else {
 					$titulo = "Inserir Registro";
 
 				}
+
 
 				?>
 
@@ -112,33 +104,7 @@ require_once("../conexao.php");
 						<input value="<?php echo @$nome2 ?>" type="text" class="form-control" id="nome_mec" name="nome_mec" placeholder="Nome">
 					</div>
 
-					<div class="row">
-						<div class="col-md-6">
-							<div class="form-group">
-								<label >CPF</label>
-								<input value="<?php echo @$cpf2 ?>" type="text" class="form-control" id="cpf" name="cpf_mec" placeholder="CPF">
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-group">
-								<label >Telefone</label>
-								<input value="<?php echo @$telefone2 ?>" type="text" class="form-control" id="telefone" name="telefone_mec" placeholder="Telefone">
-							</div>
-						</div>
-					</div>
-
-
-					<div class="form-group">
-						<label >Email</label>
-						<input value="<?php echo @$email2 ?>" type="text" class="form-control" id="email" name="email_mec" placeholder="Email">
-					</div>
-
-					<div class="form-group">
-						<label >Endereço</label>
-						<input value="<?php echo @$endereco2 ?>" type="text" class="form-control" id="endereco" name="endereco_mec" placeholder="Endereço">
-					</div>
-
-
+					
 					<small>
 						<div id="mensagem">
 
@@ -147,7 +113,11 @@ require_once("../conexao.php");
 
 				</div>
 
+
+
 				<div class="modal-footer">
+
+
 
 					<input value="<?php echo @$_GET['id'] ?>" type="hidden" name="txtid2" id="txtid2">
 					<input value="<?php echo @$cpf2 ?>" type="hidden" name="antigo" id="antigo">
@@ -160,6 +130,7 @@ require_once("../conexao.php");
 		</div>
 	</div>
 </div>
+
 
 <div class="modal" id="modal-deletar" tabindex="-1" role="dialog">
 	<div class="modal-dialog" role="document">
@@ -174,9 +145,7 @@ require_once("../conexao.php");
 
 				<p>Deseja realmente Excluir este Registro?</p>
 
-				<div align="center" id="mensagem_excluir" class="">
-
-				</div>
+				<small><div align="center" id="mensagem_excluir" class="">	</div></small>
 
 			</div>
 			<div class="modal-footer">
@@ -208,6 +177,9 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
 }
 
 ?>
+
+
+
 
 <!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM OU SEM IMAGEM -->
 <script type="text/javascript">
@@ -249,6 +221,8 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
 	});
 </script>
 
+
+
 <!--AJAX PARA EXCLUSÃO DOS DADOS -->
 <script type="text/javascript">
 	$(document).ready(function () {
@@ -265,7 +239,10 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
 					if (mensagem.trim() === 'Excluído com Sucesso!') {
 						$('#btn-cancelar-excluir').click();
 						window.location = "index.php?pag=" + pag;
+					}else{
+						$('#mensagem_excluir').addClass('text-danger')
 					}
+
 					$('#mensagem_excluir').text(mensagem)
 
 				},
@@ -277,29 +254,7 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
 
 
 
-<!--SCRIPT PARA CARREGAR IMAGEM -->
-<script type="text/javascript">
 
-	function carregarImg() {
-
-		var target = document.getElementById('target');
-		var file = document.querySelector("input[type=file]").files[0];
-		var reader = new FileReader();
-
-		reader.onloadend = function () {
-			target.src = reader.result;
-		};
-
-		if (file) {
-			reader.readAsDataURL(file);
-
-
-		} else {
-			target.src = "";
-		}
-	}
-
-</script>
 
 
 <script type="text/javascript">

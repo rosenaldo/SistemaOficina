@@ -1,6 +1,6 @@
 <?php 
 
-$nome_oficina = "Oficina do Marcão";
+$nome_oficina = "GMS DIESEL";
 
 $url = "http://$_SERVER[HTTP_HOST]/";
 $ur = explode("//", $url);
@@ -9,7 +9,7 @@ if($ur[1] == 'localhost/'){
 }
 
 
-$endereco_oficina = "Rua, 000, Bairro";
+$endereco_oficina = "RUA VINTE E OITO DE OUTUBRO, 53, BOA ESPERANÇA, PARNAMIRIM - RN, CEP:-59140-510 ";
 $telefone_oficina = "(84) 99138-0856";
 $email_adm = 'marcos@adm.com.br';
 $rodape_relatorios = "Desenvolvido por Jose Rosenaldo - DialogaTech";

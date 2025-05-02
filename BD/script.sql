@@ -133,6 +133,7 @@ CREATE TABLE `pcm_corretiva` (
 
 -- oficina.pcm definition
 
+
 CREATE TABLE `pcm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cliente` varchar(20) NOT NULL,
@@ -142,7 +143,7 @@ CREATE TABLE `pcm` (
   `data` date NOT NULL,
   `mecanico` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- oficina.os definition
@@ -337,7 +338,6 @@ CREATE TABLE `categorias` (
   `nome` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
 
 
 

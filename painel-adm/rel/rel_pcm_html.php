@@ -47,219 +47,224 @@ $km = $res_vei[0]['km'];
 
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>Plano de Controle de Manutenção</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Plano de Controle de Manutenção</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-	<style>
+    <style>
+    @page {
+        margin: 0px;
 
-		@page {
-			margin: 0px;
+    }
 
-		}
+    .footer {
+        margin-top: 20px;
+        width: 100%;
+        background-color: #ebebeb;
+        padding: 10px;
+    }
 
-		.footer {
-			margin-top:20px;
-			width:100%;
-			background-color: #ebebeb;
-			padding:10px;
-		}
+    .cabecalho {
+        background-color: #ebebeb;
+        padding: 10px;
+        margin-bottom: 30px;
+        width: 100%;
+        height: 100px;
+    }
 
-		.cabecalho {    
-			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
-		}
+    .titulo {
+        margin: 0;
+        font-size: 28px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #6e6d6d;
 
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+    }
 
-		}
+    .subtitulo {
+        margin: 0;
+        font-size: 17px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-		.subtitulo{
-			margin:0;
-			font-size:17px;
-			font-family:Arial, Helvetica, sans-serif;
-		}
+    .areaTotais {
+        border: 0.5px solid #bcbcbc;
+        padding: 15px;
+        border-radius: 5px;
+        margin-right: 25px;
+        margin-left: 25px;
+        position: absolute;
+        right: 20;
+    }
 
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
-		}
+    .areaTotal {
+        border: 0.5px solid #bcbcbc;
+        padding: 15px;
+        border-radius: 5px;
+        margin-right: 25px;
+        margin-left: 25px;
+        background-color: #f9f9f9;
+        margin-top: 2px;
+    }
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			background-color: #f9f9f9;
-			margin-top:2px;
-		}
+    .pgto {
+        margin: 1px;
+    }
 
-		.pgto{
-			margin:1px;
-		}
+    .fonte13 {
+        font-size: 13px;
+    }
 
-		.fonte13{
-			font-size:13px;
-		}
+    .esquerda {
+        display: inline;
+        width: 50%;
+        float: left;
+    }
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
-		}
+    .direita {
+        display: inline;
+        width: 50%;
+        float: right;
+    }
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
-		}
+    .table {
+        padding: 15px;
+        font-family: Verdana, sans-serif;
+        margin-top: 20px;
+    }
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
-		}
-
-		.texto-tabela{
-			font-size:12px;
-		}
-
-
-		.esquerda_float{
-
-			margin-bottom:10px;
-			float:left;
-			display:inline;
-		}
+    .texto-tabela {
+        font-size: 12px;
+    }
 
 
-		.titulos{
-			margin-top:10px;
-		}
+    .esquerda_float {
 
-		.image{
-			margin-top:-10px;
-		}
-
-		.margem-direita{
-			margin-right: 80px;
-		}
-
-		hr{
-			margin:8px;
-			padding:1px;
-		}
+        margin-bottom: 10px;
+        float: left;
+        display: inline;
+    }
 
 
-	</style>
+    .titulos {
+        margin-top: 10px;
+    }
+
+    .image {
+        margin-top: -10px;
+    }
+
+    .margem-direita {
+        margin-right: 80px;
+    }
+
+    hr {
+        margin: 8px;
+        padding: 1px;
+    }
+    </style>
 
 </head>
+
 <body>
 
 
-	<div class="cabecalho">
-		<div class="container">
-			<div class="row titulos">
-				<div class="col-sm-2 esquerda_float image">	
-					<!-- <img src="../../img/logo2.png" width="100px"> -->
-				</div>
-				<div class="col-sm-10 esquerda_float">	
-					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
-					<h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
+    <div class="cabecalho">
+        <div class="container">
+            <div class="row titulos">
+                <div class="col-sm-2 esquerda_float image">
+                    <!-- <img src="../../img/logo2.png" width="100px"> -->
+                </div>
+                <div class="col-sm-10 esquerda_float">
+                    <h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
+                    <h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
 
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 
-	<div class="container">
+    <div class="container">
 
-		<div class="row">
-			<div class="col-sm-8 esquerda">	
-				<big> Plano de Controle de Manutenção</big>
-			</div>
-			<div class="col-sm-4 direita" align="right">	
-				<big> <small> Data: <?php echo $data_hoje; ?></small> </big>
-			</div>
-		</div>
-
-
-		<hr>
+        <div class="row">
+            <div class="col-sm-8 esquerda">
+                <big> Plano de Controle de Manutenção</big>
+            </div>
+            <div class="col-sm-4 direita" align="right">
+                <big> <small> Data: <?php echo $data_hoje; ?></small> </big>
+            </div>
+        </div>
 
 
-
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="fonte13"> <b> Dados do Cliente </b> </p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="esquerda">
-				<div class="col-sm-6">
-					<p class="fonte13">  Nome: <?php echo $nome_cli; ?> </p>
-
-					<p class="fonte13">  Email: <?php echo $email_cli; ?> </p>
-
-					<p class="fonte13">  Endereço: <?php echo $endereco_cli; ?> </p>
-				</div>
-				
-			</div>
-
-			<div class="direita">
-				<div class="col-sm-6">
-					<p class="fonte13">  Telefone: <?php echo $telefone_cli; ?> </p>
-					<p class="fonte13">  CNPJ/CPF: <?php echo $cpf_cliente; ?> </p>
-					<p class="fonte13"> &nbsp;&nbsp;  </p>
-				</div>
-			</div>
-		</div>
-
-		<hr>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="fonte13"> <b> Dados do Veículo </b> </p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13 ">  Marca / Modelo: <?php echo $marca; ?> </p>
-				</div>
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13">  Placa: <?php echo $placa; ?> Cor: <?php echo $cor ?> </p>
-				</div>
-				<div class="">
-					<p class="fonte13">  Ano: <?php echo $ano ?> KM: <?php echo $km ?> </p>
-
-				</div>
+        <hr>
 
 
-			</div>
-		</div>
 
-		<hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="fonte13"> <b> Dados do Cliente </b> </p>
+            </div>
+        </div>
 
-		<div class="row">
-			<div class="col-sm-12">	
-				
-					<?php 
+        <div class="row">
+            <div class="esquerda">
+                <div class="col-sm-6">
+                    <p class="fonte13"> Nome: <?php echo $nome_cli; ?> </p>
+
+                    <p class="fonte13"> Email: <?php echo $email_cli; ?> </p>
+
+                    <p class="fonte13"> Endereço: <?php echo $endereco_cli; ?> </p>
+                </div>
+
+            </div>
+
+            <div class="direita">
+                <div class="col-sm-6">
+                    <p class="fonte13"> Telefone: <?php echo $telefone_cli; ?> </p>
+                    <p class="fonte13"> CNPJ/CPF: <?php echo $cpf_cliente; ?> </p>
+                    <p class="fonte13"> &nbsp;&nbsp; </p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="fonte13"> <b> Dados do Veículo </b> </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="esquerda_float margem-direita">
+                    <p class="fonte13 "> Marca / Modelo: <?php echo $marca; ?> </p>
+                </div>
+                <div class="esquerda_float margem-direita">
+                    <p class="fonte13"> Placa: <?php echo $placa; ?> Cor: <?php echo $cor ?> </p>
+                </div>
+                <div class="">
+                    <p class="fonte13"> Ano: <?php echo $ano ?> KM: <?php echo $km ?> </p>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div class="">
+            <p class="fonte13"> Observações: <?php echo $descricao; ?> </p>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <?php 
 						$query_s = $pdo->query("SELECT * FROM pcm_preventiva where pcm = '$id' ");
 						$res_s = $query_s->fetchAll(PDO::FETCH_ASSOC);
 						if(@count($res_s) == 0){
@@ -268,90 +273,63 @@ $km = $res_vei[0]['km'];
 							echo $nome_serv;
 							
 						}else if(@count($res_s) == 1){
-							$serv = $res_s[0]['servico'];
-							echo '<p style="font-size:13px"> <b>Tipo de Manutenção: </b>'; 
-							
-						$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-						$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-						$nome_serv = $res_ser[0]['descricao'];
-						echo $nome_serv;
+								//
 
 						}else{
-							// echo '<p style="font-size:13px"> <b> '.count($res_s).' Manutenção: </b>'; 
-							
-							// 	for ($i=0; $i < @count($res_s); $i++) { 
-							// 	foreach ($res_s[$i] as $key => $value) {
-							// 	}
-
-							// 	$serv = $res_s[$i]['servico'];
-								
-							// $query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-							// $res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-							// $nome_serv = $res_ser[0]['descricao'];
-
-
-							// 	if($i + 1 == @count($res_s)){
-							// 		echo $nome_serv;
-							// 	}else{
-							// 		echo $nome_serv .', ';
-							// 			}
-
-							// }
+							//
 							
 						}
 						
-					 ?> 
+					 ?>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+<!-- rosenaldo -->
+            <?php 
+            $check = "☐";
+            $query = $pdo->query("SELECT * FROM pcm_preventiva WHERE pcm = '$id'");
+            $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-				<?php 
-				$check = "☐";
-				$query = $pdo->query("SELECT * FROM pcm_preventiva where pcm = '$id' ");
-				$res = $query->fetchAll(PDO::FETCH_ASSOC);
-				if(@count($res) > 0){
-					?>
-					<small>
-					<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-						<tr bgcolor='#f9f9f9' >
-							<td> <b>Manutenção Preventiva:</b> </td>
-							<td> <b>check</b> </td>
-							
-						</tr>
-						<?php 
+            if (@count($res) > 0) {
+            ?>
+            <small>
+                <table class='table' width='100%' cellspacing='0' cellpadding='3'>
+                    <tr bgcolor='#f9f9f9'>
+                        <td><b>Manutenção Preventiva:</b></td>
+                        <td><b>Observação:</b></td>
+                        <td><b>Check</b></td>
+                    </tr>
+                    <?php
+                        for ($i = 0; $i < count($res); $i++) {
+                            $serv = $res[$i]['servico'];
+                            $id_pcm_preventiva = $res[$i]['id'];
 
+                            // Busca nome do serviço
+                            $query_ser = $pdo->query("SELECT * FROM tipo_pcm WHERE id = '$serv'");
+                            $res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
+                            $nome_ser = $res_ser[0]['descricao'];
+                            $id_ser = $res_ser[0]['id'];
 
-						for ($i=0; $i < @count($res); $i++) { 
-							foreach ($res[$i] as $key => $value) {
-							}
-							$serv = $res[$i]['servico'];
+                            // Busca observação correspondente corretamente
+                            $query_obs = $pdo->query("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = '$id' AND id_pcm_preventiva = '$id_pcm_preventiva' LIMIT 1");
+                            $obs = $query_obs->fetch(PDO::FETCH_ASSOC);
+                            $observacao = $obs ? $obs['observacao'] : '';
+                        ?>
+                    <tr>
+                        <td><?php echo $nome_ser; ?></td>
+                        <td><?php echo htmlspecialchars($observacao); ?></td>
+                        <td><?php echo $check; ?></td>
+                    </tr>
+                    <?php } ?>
+                </table>
+            </small>
+            <?php } ?>
 
-							$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-							$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-							$nome_ser = $res_ser[0]['descricao'];
-							$id_ser = $res_ser[0]['id'];
+            <hr>
 
+            <div class="col-sm-12">
 
-							?>
-
-							<tr>
-								<td> <?php echo $nome_ser; ?> </td>
-								<td><?php echo $check; ?> </td>
-							</tr>
-
-						<?php } ?>
-
-					</table>
-				</small>
-				<?php }else{
-
-				} ?>
-
-				<hr>
-
-				<div class="col-sm-12">	
-				
-					<?php 
+                <?php 
 						$query_s = $pdo->query("SELECT * FROM pcm_corretiva where pcm = '$id' ");
 						$res_s = $query_s->fetchAll(PDO::FETCH_ASSOC);
 						if(@count($res_s) == 0){
@@ -360,90 +338,74 @@ $km = $res_vei[0]['km'];
 							echo $nome_serv;
 							
 						}else if(@count($res_s) == 1){
-							$serv = $res_s[0]['servico'];
-							echo '<p style="font-size:13px"> <b>Tipo de Manutenção: </b>'; 
-							
-						$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-						$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-						$nome_serv = $res_ser[0]['descricao'];
-						echo $nome_serv;
+							//
 
 						}else{
-							// echo '<p style="font-size:13px"> <b> '.count($res_s).' Manutenção: </b>'; 
-							
-							// 	for ($i=0; $i < @count($res_s); $i++) { 
-							// 	foreach ($res_s[$i] as $key => $value) {
-							// 	}
-
-							// 	$serv = $res_s[$i]['servico'];
-								
-							// $query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-							// $res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-							// $nome_serv = $res_ser[0]['descricao'];
-
-
-							// 	if($i + 1 == @count($res_s)){
-							// 		echo $nome_serv;
-							// 	}else{
-							// 		echo $nome_serv .', ';
-							// 			}
-
-							// }
+							// 
 							
 						}
 						
-					 ?> 
+					 ?>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
 
-				<?php 
+            <?php 
 				$check = "☐";
 				$query = $pdo->query("SELECT * FROM pcm_corretiva where pcm = '$id' ");
 				$res = $query->fetchAll(PDO::FETCH_ASSOC);
 				if(@count($res) > 0){
 					?>
-					<small>
-					<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-						<tr bgcolor='#f9f9f9' >
-							<td> <b>Manutenção Corretiva:</b> </td>
-							<td> <b>check</b> </td>
-							
-						</tr>
-						<?php 
+            <small>
+                <table class='table' width='100%' cellspacing='0' cellpadding='3'>
+                    <tr bgcolor='#f9f9f9'>
+                        <td> <b>Manutenção Corretiva:</b> </td>
+                        <td> <b>Observação:</b> </td>
+                        <td> <b>check</b> </td>
+
+                    </tr>
+                    <?php 
 
 
 						for ($i=0; $i < @count($res); $i++) { 
 							foreach ($res[$i] as $key => $value) {
 							}
 							$serv = $res[$i]['servico'];
+                            $id_pcm_corretiva = $res[$i]['id'];
+
 
 							$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
 							$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
 							$nome_ser = $res_ser[0]['descricao'];
 							$id_ser = $res_ser[0]['id'];
 
+                            // Busca observação correspondente corretamente
+                            $query_obs = $pdo->query("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = '$id' AND id_pcm_corretiva = '$id_pcm_corretiva' LIMIT 1");
+                            $obs = $query_obs->fetch(PDO::FETCH_ASSOC);
+                            $observacao = $obs ? $obs['observacao'] : '';
+
 
 							?>
 
-							<tr>
-								<td> <?php echo $nome_ser; ?> </td>
-								<td><?php echo $check; ?> </td>
-							</tr>
+                    <tr>
+                        <td> <?php echo $nome_ser; ?> </td>
+                        <td><?php echo htmlspecialchars($observacao); ?></td>
+                        <td><?php echo $check; ?> </td>
+                    </tr>
 
-						<?php } ?>
+                    <?php } ?>
 
-					</table>
-				</small>
-				<?php }else{
+                </table>
+            </small>
+            <?php }else{
 
 				} ?>
 
-				<hr>
+            <hr>
 
-				<div class="col-sm-12">	
-				
-					<?php 
+            <div class="col-sm-12">
+
+                <?php 
 						$query_s = $pdo->query("SELECT * FROM pcm_preditiva where pcm = '$id' ");
 						$res_s = $query_s->fetchAll(PDO::FETCH_ASSOC);
 						if(@count($res_s) == 0){
@@ -452,99 +414,80 @@ $km = $res_vei[0]['km'];
 							echo $nome_serv;
 							
 						}else if(@count($res_s) == 1){
-							$serv = $res_s[0]['servico'];
-							echo '<p style="font-size:13px"> <b>Tipo de Manutenção: </b>'; 
-							
-						$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-						$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-						$nome_serv = $res_ser[0]['descricao'];
-						echo $nome_serv;
-
+								//
 						}else{
-							// echo '<p style="font-size:13px"> <b> '.count($res_s).' Manutenção: </b>'; 
-							
-							// 	for ($i=0; $i < @count($res_s); $i++) { 
-							// 	foreach ($res_s[$i] as $key => $value) {
-							// 	}
-
-							// 	$serv = $res_s[$i]['servico'];
-								
-							// $query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
-							// $res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-							// $nome_serv = $res_ser[0]['descricao'];
-
-
-							// 	if($i + 1 == @count($res_s)){
-							// 		echo $nome_serv;
-							// 	}else{
-							// 		echo $nome_serv .', ';
-							// 			}
-
-							// }
+							// 
 							
 						}
 						
-					 ?> 
+					 ?>
 
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
 
-				<?php 
+            <?php 
 				$check = "☐";
 				$query = $pdo->query("SELECT * FROM pcm_preditiva where pcm = '$id' ");
 				$res = $query->fetchAll(PDO::FETCH_ASSOC);
 				if(@count($res) > 0){
 					?>
-					<small>
-					<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-						<tr bgcolor='#f9f9f9' >
-							<td> <b>Manutenção Preditiva:</b> </td>
-							<td> <b>check</b> </td>
-							
-						</tr>
-						<?php 
+            <small>
+                <table class='table' width='100%' cellspacing='0' cellpadding='3'>
+                    <tr bgcolor='#f9f9f9'>
+                        <td> <b>Manutenção Preditiva:</b> </td>
+                        <td> <b>Observação:</b> </td>
+                        <td> <b>check</b> </td>
+
+                    </tr>
+                    <?php 
 
 
 						for ($i=0; $i < @count($res); $i++) { 
 							foreach ($res[$i] as $key => $value) {
 							}
 							$serv = $res[$i]['servico'];
+                            $id_pcm_preditiva = $res[$i]['id'];
+
 
 							$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
 							$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
 							$nome_ser = $res_ser[0]['descricao'];
 							$id_ser = $res_ser[0]['id'];
 
+                             // Busca observação correspondente corretamente
+                             $query_obs = $pdo->query("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = '$id' AND id_pcm_preditiva = '$id_pcm_preditiva' LIMIT 1");
+                             $obs = $query_obs->fetch(PDO::FETCH_ASSOC);
+                             $observacao = $obs ? $obs['observacao'] : '';
 
 							?>
 
-							<tr>
-								<td> <?php echo $nome_ser; ?> </td>
-								<td><?php echo $check; ?> </td>
-							</tr>
+                    <tr>
+                        <td> <?php echo $nome_ser; ?> </td>
+                        <td><?php echo htmlspecialchars($observacao); ?></td>
+                        <td><?php echo $check; ?> </td>
+                    </tr>
 
-						<?php } ?>
+                    <?php } ?>
 
-					</table>
-				</small>
-				<?php }else{
+                </table>
+            </small>
+            <?php }else{
 
 				} ?>
 
-				<hr>
-				<hr>
+            <hr>
+            <hr>
 
-				<div class="row">
-					<div class="col-md-6" style="width:50%; float:left;">	
-						<p style="font-size:13px">  <b>Mecânico: </b> <?php echo $nome_mecanico; ?>  </p>
-					</div>
+            <div class="col-md-6" style="width:50%; float:left;">
+                <p style="font-size:13px"> <b>Mecânico: </b> <?php echo $nome_mecanico; ?> </p>
+            </div>
+        </div>
+        <div class="footer">
+            <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
+        </div>
 
-				<div class="footer">
-				
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
-	</div>
 
-	</body>
+</body>
 
-	
+
 </html>

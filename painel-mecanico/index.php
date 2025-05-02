@@ -20,6 +20,8 @@ $menu1 = "orcamentos";
 $menu2 = "servicos";
 $menu3 = "comissoes";
 $menu4 = "relComissao";
+$menu5 = "plano_manutencao";
+$menu6 = "cadastrar_manutencao"; 
 
 
 
@@ -103,6 +105,30 @@ $menu4 = "relComissao";
 
 
                     <!-- Divider -->
+                    <hr class="sidebar-divider">
+
+                      <!-- Heading -->
+                    <div class="sidebar-heading">
+                        Planejamento e Controle De Manutenção
+                    </div>
+
+                    
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManutencao" aria-expanded="true" aria-controls="collapseManutencao">
+                            <i class="fas fa-cogs"></i>
+                            <span>Planejamento de Manutenção (PCM)</span>
+                        </a>
+                        <div id="collapseManutencao" class="collapse" aria-labelledby="headingManutencao" data-parent="#accordionSidebar">
+                            <div class="bg-white py-2 collapse-inner rounded">
+                                
+                                <a class="collapse-item" href="index.php?pag=<?php echo $menu6 ?>">Cadastrar PCM</a>
+                                <a class="collapse-item" href="index.php?pag=<?php echo $menu5 ?>">Gerar PCM</a>
+
+                            </div>
+                        </div>
+                    </li>
+
+                       <!-- Divider -->
                     <hr class="sidebar-divider">
 
                     <!-- Heading -->
@@ -203,6 +229,12 @@ $menu4 = "relComissao";
 
                                     } else if (@$pag==$menu3) {
                                         include_once(@$menu3.".php");
+                                        
+                                    } else if (@$pag==$menu5) {
+                                        include_once(@$menu5.".php");
+                                        
+                                    } else if (@$pag==$menu6) {
+                                        include_once(@$menu6.".php");
 
 
 

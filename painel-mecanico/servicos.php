@@ -17,8 +17,6 @@ $funcao = @$_GET['funcao'];
 
 </div>
 
-
-
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
 

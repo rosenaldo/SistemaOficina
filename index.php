@@ -62,13 +62,13 @@ $pdo->query("DELETE FROM orcamentos where id = '$id_orc'");
 		width: 100%;
 		height:100%;
 		font-family: 'Open Sans', sans-serif;
-		background:rgb(53, 9, 86);
+		background:rgb(161, 59, 239);
 		background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,rgb(38, 4, 78) 0%,rgb(21, 4, 66) 100%);
 		background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,rgb(18, 4, 63) 0%,#561209 100%);
 		background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,rgb(18, 2, 55) 0%,#561209 100%);
 		background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,rgb(17, 2, 60) 0%,#561209 100%);
-		background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,rgb(13, 2, 52) 0%,#561209 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#561209',GradientType=1 );
+		background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(209, 83, 237, 0.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,rgb(13, 2, 52) 0%,#561209 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7354A5', endColorstr='#561209',GradientType=1 );
 	}
 	.login { 
 		position: absolute;

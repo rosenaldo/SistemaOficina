@@ -1,8 +1,8 @@
 <?php 
-// @session_start();
-// if(@$_SESSION['nivel_usuario'] == null || @$_SESSION['nivel_usuario'] != 'mecanico'){
-// 	echo "<script language='javascript'> window.location='../index.php' </script>";
-// }
+@session_start();
+if(@$_SESSION['nivel_usuario'] == null || @$_SESSION['nivel_usuario'] != 'admin'){
+	echo "<script language='javascript'> window.location='../index.php' </script>";
+}
 
 $pag = "orcamentos";
 require_once("../conexao.php"); 
