@@ -1071,6 +1071,21 @@ $('#cli').on('change', function(e) {
 
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const linhas = document.querySelectorAll('tr');
+
+        linhas.forEach(function (linha) {
+            linha.addEventListener('click', function () {
+                // Remove seleção anterior
+                linhas.forEach(l => l.classList.remove('tr-selecionada'));
+                // Adiciona classe na linha clicada
+                linha.classList.add('tr-selecionada');
+            });
+        });
+    });
+</script>
+
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -1096,4 +1111,11 @@ $(document).ready(function() {
     font-size: 16px !important;
     color: #666666 !important;
 }
+
+
+.tr-selecionada {
+    background-color: #C4B5FD !important;
+    color: white;
+}
+
 </style>
