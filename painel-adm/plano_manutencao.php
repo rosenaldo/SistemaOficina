@@ -382,14 +382,11 @@ for ($i = 0; $i < count($res); $i++) {
     <span><small><i><?php echo $nome_prod ?></i></small></span>
 
     <!-- Campo de entrada de observação jose-->
-    <input type="text" name="obs_preventiva_<?php echo $id_prd ?>" id="obs_<?php echo $id_prd ?>"
+    <input type="text" name="obs_preventiva_<?php echo $id_prd ?>" id="obs_preventiva_<?php echo $id_prd ?>"
         class="form-control form-control-sm d-inline-block obs-preventiva" style="width: 200px;"
         placeholder="Ex: 5 litros" data-tipo-pcm="preventiva" data-id="<?php echo $id_prd ?>"
         data-id-pcm="<?php echo $id_orc ?>" value="<?php echo $valor_observacao ?>"
         onblur="enviarPreventiva(<?php echo $id_prd ?>, <?php echo $id_orc ?>)">
-
-
-
 
     <!-- Botão de exclusão -->
     <a
@@ -402,7 +399,6 @@ for ($i = 0; $i < count($res); $i++) {
 </div>
 <?php } ?>
 <?php } ?>
-
 
 <div class="modal" id="modal-corretiva" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -513,7 +509,7 @@ for ($i = 0; $i < count($res); $i++) {
     <span><small><i><?php echo $nome_prod ?></i></small></span>
 
     <!-- Campo de entrada para observações rosenaldo-->
-    <input type="text" name="obs_corretiva_<?php echo $id_prd ?>" id="obs_<?php echo $id_prd ?>"
+    <input type="text" name="obs_corretiva_<?php echo $id_prd ?>" id="obs_corretiva_<?php echo $id_prd ?>"
         class="form-control form-control-sm d-inline-block obs-corretiva" style="width: 200px;"
         placeholder="Ex: 5 litros" data-tipo-pcm="corretiva" data-id="<?php echo $id_prd ?>"
         data-id-pcm="<?php echo $id_orc ?>" value="<?php echo $valor_observacao ?>"
@@ -530,7 +526,6 @@ for ($i = 0; $i < count($res); $i++) {
 </div>
 <?php } ?>
 <?php } ?>
-
 
 <div class="modal" id="modal-preditiva" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
@@ -613,38 +608,39 @@ if (count($res) > 0) {
 
 <?php
 	for ($i = 0; $i < count($res); $i++) { 
-		$serv = $res[$i]['servico'];
-
-		$query_pro = $pdo->query("SELECT * FROM tipo_pcm WHERE id = '$serv'");
-		$res_pro = $query_pro->fetchAll(PDO::FETCH_ASSOC);
-		$nome_prod = $res_pro[0]['descricao'];
-		$id_prd = $res_pro[0]['id'];
-
-		// Buscar observação para esse id_prd e id_pcm
-		$valor_observacao = '';
-		try {
-			$query_obs = $pdo->prepare("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = :id_pcm AND id_tipo_pcm = :id_tipo_pcm");
-			$query_obs->execute([
-				':id_pcm' => $id_orc,
-				':id_tipo_pcm' => $id_prd
-			]);
-			$res_obs = $query_obs->fetch(PDO::FETCH_ASSOC);
-			if ($res_obs) {
-				$valor_observacao = htmlspecialchars($res_obs['observacao']);
-			}
-		} catch (Exception $e) {
-			// Tratar erro se necessário
-		}
+        $serv = $res[$i]['servico'];
+    
+        $query_pro = $pdo->query("SELECT * FROM tipo_pcm WHERE id = '$serv'");
+        $res_pro = $query_pro->fetchAll(PDO::FETCH_ASSOC);
+        $nome_prod = $res_pro[0]['descricao'];
+        $id_prd = $res_pro[0]['id'];
+    
+        $id_pcm_preditiva = $res[$i]['id']; 
+    
+        
+        $valor_observacao = '';
+        try {
+            $query_obs = $pdo->prepare("SELECT observacao FROM pcm_preditiva WHERE id = :id");
+            $query_obs->execute([
+                ':id' => $id_pcm_preditiva
+            ]);
+            $res_obs = $query_obs->fetch(PDO::FETCH_ASSOC);
+            if ($res_obs) {
+                $valor_observacao = htmlspecialchars($res_obs['observacao']);
+            }
+        } catch (Exception $e) {
+            // Log de erro se necessário
+        }
 	?>
 <div class="mb-2">
     <span><small><i><?php echo $nome_prod ?></i></small></span>
 
     <!-- Campo de entrada para observações -->
-    <input type="text" name="obs_preditiva_<?php echo $id_prd ?>"
+    <input type="text" name="obs_preditiva_<?php echo $id_prd ?>" id="obs_preditiva_<?php echo $id_prd ?>"
         class="form-control form-control-sm d-inline-block obs-preditiva" style="width: 200px;"
         placeholder="Ex: 5 litros" data-tipo-pcm="preditiva" data-id="<?php echo $id_prd ?>"
-        data-id-pcm="<?php echo $id_orc ?>" value="<?php echo $valor_observacao ?>">
-
+        data-id-pcm="<?php echo $id_orc ?>" value="<?php echo $valor_observacao ?>"
+        onblur="enviarPreditiva(<?php echo $id_prd ?>, <?php echo $id_orc ?>)">
 
     <!-- Botão de exclusão -->
     <a
@@ -691,6 +687,7 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "preditiva") {
 	echo "<script>$('#modal-preditiva').modal('show');</script>";
 }
 
+
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ") {
     $id_orc = $_GET['id'];
     $id_serv = $_GET['id_serv'];
@@ -734,7 +731,6 @@ if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ") {
 }
 
 
-
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ2") {
     $id_orc = $_GET['id'];
     $id_serv = $_GET['id_serv'];
@@ -776,12 +772,10 @@ if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ2") {
     echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ2';</script>";
 }
 
-
-
-
 if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ3") {
     $id_orc = $_GET['id'];
-    $id_serv = $_GET['id_serv'];					   
+    $id_serv = $_GET['id_serv'];
+    $obs = isset($_GET["obs"]) ? $_GET["obs"] : '';
 
     if (!isset($_GET["funcao3"])) {
         $query = $pdo->prepare("SELECT COUNT(*) FROM pcm_preditiva WHERE pcm = :pcm AND servico = :servico");
@@ -792,10 +786,12 @@ if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ3") {
         $existe = $query->fetchColumn();
 
         if ($existe == 0) {
-            $stmt = $pdo->prepare("INSERT INTO pcm_preditiva (pcm, servico) VALUES (:pcm, :servico)");
+            // Inserir com observação
+            $stmt = $pdo->prepare("INSERT INTO pcm_preditiva (pcm, servico, observacao) VALUES (:pcm, :servico, :obs)");
             $stmt->execute([
                 ':pcm' => $id_orc,
-                ':servico' => $id_serv
+                ':servico' => $id_serv,
+                ':obs' => $obs
             ]);
 
             $update = $pdo->prepare("UPDATE pcm SET servico = :servico WHERE id = :id");
@@ -804,13 +800,18 @@ if (@$_GET["funcao2"] != null && @$_GET["funcao2"] == "adicionarServ3") {
                 ':id' => $id_orc
             ]);
         } else {
-            echo "<script>alert('Serviço já foi adicionado anteriormente.');</script>";
+            // Atualiza observação se já existir
+            $updateObs = $pdo->prepare("UPDATE pcm_preditiva SET observacao = :obs WHERE pcm = :pcm AND servico = :servico");
+            $updateObs->execute([
+                ':obs' => $obs,
+                ':pcm' => $id_orc,
+                ':servico' => $id_serv
+            ]);
         }
     }
 
     echo "<script>window.location='index.php?pag=$pag&id=$id_orc&funcao=detalhesServ3';</script>";
 }
-
 
 
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "detalhes") {
@@ -858,12 +859,11 @@ if (@$_GET["funcao3"] != null && @$_GET["funcao3"] == "excluirServ3") {
 
 ?>
 
-
 <script>
 function enviarPreventiva(idServ, idOrc) {
-    const input = document.getElementById('obs_' + idServ);
+    const input = document.getElementById('obs_preventiva_' + idServ);
     const obs = input.value;
-    const tipo = input.dataset.tipoPcm; // Pega 'preventiva' ou 'corretiva'
+    const tipo = input.dataset.tipoPcm;
     const pag = "<?php echo $pag ?>";
 
     const xhr = new XMLHttpRequest();
@@ -873,7 +873,7 @@ function enviarPreventiva(idServ, idOrc) {
 
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
-            console.log("Requisição OK");
+            console.log("Preventiva enviada com sucesso");
         } else {
             console.error("Erro:", xhr.status);
         }
@@ -886,12 +886,10 @@ function enviarPreventiva(idServ, idOrc) {
 
 <script>
 function enviarCorretiva(idServ, idOrc) {
-    const input = document.getElementById('obs_' + idServ);
+    const input = document.getElementById('obs_corretiva_' + idServ);
     const obs = input.value;
-    const tipo = input.dataset.tipoPcm; 
+    const tipo = input.dataset.tipoPcm;
     const pag = "<?php echo $pag ?>";
-
-
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET',
@@ -900,7 +898,7 @@ function enviarCorretiva(idServ, idOrc) {
 
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
-            console.log("Requisição OK");
+            console.log("Corretiva enviada com sucesso");
         } else {
             console.error("Erro:", xhr.status);
         }
@@ -910,8 +908,29 @@ function enviarCorretiva(idServ, idOrc) {
 }
 </script>
 
+<script>
+function enviarPreditiva(idServ, idOrc) {
+    const input = document.getElementById('obs_preditiva_' + idServ);
+    const obs = input.value;
+    const tipo = input.dataset.tipoPcm;
+    const pag = "<?php echo $pag ?>";
 
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET',
+        `index.php?pag=${pag}&funcao=servicos&funcao2=adicionarServ3&id_serv=${idServ}&id=${idOrc}&obs=${encodeURIComponent(obs)}`,
+        true);
 
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            console.log("Preditiva enviada com sucesso");
+        } else {
+            console.error("Erro:", xhr.status);
+        }
+    };
+
+    xhr.send();
+}
+</script>
 
 
 <!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM OU SEM IMAGEM -->
@@ -1016,37 +1035,6 @@ $(document).ready(function() {
     })
 })
 </script>
-
-
-<script>
-$(document).on('blur', 'input[class^="obs-"]', function() {
-    const input = $(this);
-    const observacao = input.val().trim();
-    const id = input.data('id'); // ID da linha da tabela (campo 'id')
-    const tipo_pcm = input.data('tipo-pcm'); // preventiva, corretiva ou preditiva
-
-    if (observacao === '') return; // Não envia se vazio
-
-    const pag = "<?= $pag ?>"; // Define 'pag' aqui dentro
-
-    $.ajax({
-        url: pag + "/inserir_obs_tipo_pcm.php",
-        method: 'POST',
-        data: {
-            id: id,
-            tipo_pcm: tipo_pcm,
-            observacao: observacao
-        },
-        success: function(resposta) {
-            console.log(resposta); // Mostra "Atualizado", "Inserido", etc.
-        },
-        error: function() {
-            alert('Erro ao salvar observação.');
-        }
-    });
-});
-</script>
-
 
 <script type="text/javascript">
 $(document).ready(function() {

@@ -197,10 +197,7 @@ $km = $res_vei[0]['km'];
             </div>
         </div>
 
-
         <hr>
-
-
 
         <div class="row">
             <div class="col-sm-12">
@@ -250,7 +247,6 @@ $km = $res_vei[0]['km'];
 
                 </div>
 
-
             </div>
 
         </div>
@@ -284,7 +280,7 @@ $km = $res_vei[0]['km'];
 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
-<!-- rosenaldo -->
+
             <?php 
             $check = "☐";
             $query = $pdo->query("SELECT * FROM pcm_preventiva WHERE pcm = '$id'");
@@ -302,7 +298,6 @@ $km = $res_vei[0]['km'];
                     <?php
                         for ($i = 0; $i < count($res); $i++) {
                             $serv = $res[$i]['servico'];
-                            $id_pcm_preventiva = $res[$i]['id'];
 
                             // Busca nome do serviço
                             $query_ser = $pdo->query("SELECT * FROM tipo_pcm WHERE id = '$serv'");
@@ -311,7 +306,7 @@ $km = $res_vei[0]['km'];
                             $id_ser = $res_ser[0]['id'];
 
                             // Busca observação correspondente corretamente
-                            $query_obs = $pdo->query("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = '$id' AND id_pcm_preventiva = '$id_pcm_preventiva' LIMIT 1");
+                            $query_obs = $pdo->query("SELECT observacao FROM pcm_preventiva WHERE pcm = '$id' AND servico = '$serv' LIMIT 1");
                             $obs = $query_obs->fetch(PDO::FETCH_ASSOC);
                             $observacao = $obs ? $obs['observacao'] : '';
                         ?>
@@ -371,8 +366,6 @@ $km = $res_vei[0]['km'];
 							foreach ($res[$i] as $key => $value) {
 							}
 							$serv = $res[$i]['servico'];
-                            $id_pcm_corretiva = $res[$i]['id'];
-
 
 							$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
 							$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
@@ -380,7 +373,7 @@ $km = $res_vei[0]['km'];
 							$id_ser = $res_ser[0]['id'];
 
                             // Busca observação correspondente corretamente
-                            $query_obs = $pdo->query("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = '$id' AND id_pcm_corretiva = '$id_pcm_corretiva' LIMIT 1");
+                            $query_obs = $pdo->query("SELECT observacao FROM pcm_corretiva WHERE pcm = '$id' AND servico = '$serv' LIMIT 1");
                             $obs = $query_obs->fetch(PDO::FETCH_ASSOC);
                             $observacao = $obs ? $obs['observacao'] : '';
 
@@ -446,8 +439,6 @@ $km = $res_vei[0]['km'];
 							foreach ($res[$i] as $key => $value) {
 							}
 							$serv = $res[$i]['servico'];
-                            $id_pcm_preditiva = $res[$i]['id'];
-
 
 							$query_ser = $pdo->query("SELECT * FROM tipo_pcm where id = '$serv' ");
 							$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
@@ -455,7 +446,7 @@ $km = $res_vei[0]['km'];
 							$id_ser = $res_ser[0]['id'];
 
                              // Busca observação correspondente corretamente
-                             $query_obs = $pdo->query("SELECT observacao FROM obs_tipo_pcm WHERE id_pcm = '$id' AND id_pcm_preditiva = '$id_pcm_preditiva' LIMIT 1");
+                             $query_obs = $pdo->query("SELECT observacao FROM pcm_preditiva WHERE pcm = '$id' AND servico = '$serv' LIMIT 1");
                              $obs = $query_obs->fetch(PDO::FETCH_ASSOC);
                              $observacao = $obs ? $obs['observacao'] : '';
 
@@ -485,7 +476,6 @@ $km = $res_vei[0]['km'];
         <div class="footer">
             <p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
         </div>
-
 
 </body>
 

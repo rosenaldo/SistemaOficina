@@ -105,8 +105,9 @@ CREATE TABLE `pcm_preventiva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pcm` int(11) NOT NULL,
   `servico` int(11) NOT NULL,
+  `observacao` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- oficina.pcm_preditiva definition
@@ -115,8 +116,10 @@ CREATE TABLE `pcm_preditiva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pcm` int(11) NOT NULL,
   `servico` int(11) NOT NULL,
+  `observacao` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 
 
@@ -127,8 +130,9 @@ CREATE TABLE `pcm_corretiva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pcm` int(11) NOT NULL,
   `servico` int(11) NOT NULL,
+  `observacao` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 -- oficina.pcm definition
