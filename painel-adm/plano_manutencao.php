@@ -28,6 +28,7 @@ $varios_serv = '';
                     <tr>
                         <th>Cliente</th>
                         <th>Veículo</th>
+                        <th>Placa</th>
                         <th>Mecânico</th>
                         <th>Ações</th>
                     </tr>
@@ -63,6 +64,7 @@ $varios_serv = '';
 						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
 						$modelo = $res_cat[0]['modelo'];
 						$marca = $res_cat[0]['marca'];
+						$placa = $res_cat[0]['placa'];
 
 						$query_cat = $pdo->query("SELECT * FROM pcm_preventiva where pcm = '$id' ");
 						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
@@ -92,6 +94,7 @@ $varios_serv = '';
                     <tr>
                         <td><?php echo $nome_cli ?></td>
                         <td><?php echo $marca .' '.$modelo ?></td>
+                        <td><?php echo $placa ?></td>
 
                         <td><?php echo $nome_mecanico ?></td>
 
