@@ -9,6 +9,7 @@ $valor_venda = $_POST['valor_venda'];
 $descricao = $_POST['descricao'];
 $estoque = $_POST['estoque'];
 $nivel_min = $_POST['nivel_min'];
+$fabricante = $_POST['fabricante'];
 
 $antigo = $_POST['antigo'];
 $id = $_POST['txtid2'];
@@ -69,13 +70,13 @@ if($antigo != $nome){
 
 
 if($id == ""){
-	$res = $pdo->prepare("INSERT INTO produtos SET nome = :nome, categoria = :categoria, fornecedor = :fornecedor, valor_compra = :valor_compra, valor_venda = :valor_venda, estoque = :estoque, descricao = :descricao, imagem = :imagem, nivel_min = :nivel_min");	
+	$res = $pdo->prepare("INSERT INTO produtos SET nome = :nome, categoria = :categoria, fornecedor = :fornecedor, valor_compra = :valor_compra, valor_venda = :valor_venda, estoque = :estoque, descricao = :descricao, imagem = :imagem, nivel_min = :nivel_min, fabricante = :fabricante");	
 		$res->bindValue(":imagem", $imagem);
 }else{
 	if($imagem == "sem-foto.jpg"){
-		$res = $pdo->prepare("UPDATE produtos SET nome = :nome, categoria = :categoria, fornecedor = :fornecedor, valor_compra = :valor_compra, valor_venda = :valor_venda, estoque = :estoque, descricao = :descricao, nivel_min = :nivel_min WHERE id = '$id'");
+		$res = $pdo->prepare("UPDATE produtos SET nome = :nome, categoria = :categoria, fornecedor = :fornecedor, valor_compra = :valor_compra, valor_venda = :valor_venda, estoque = :estoque, descricao = :descricao, nivel_min = :nivel_min, fabricante = :fabricante WHERE id = '$id'");
 	}else{
-		$res = $pdo->prepare("UPDATE produtos SET nome = :nome, categoria = :categoria, fornecedor = :fornecedor, valor_compra = :valor_compra, valor_venda = :valor_venda, estoque = :estoque, descricao = :descricao, imagem = :imagem, nivel_min = :nivel_min WHERE id = '$id'");
+		$res = $pdo->prepare("UPDATE produtos SET nome = :nome, categoria = :categoria, fornecedor = :fornecedor, valor_compra = :valor_compra, valor_venda = :valor_venda, estoque = :estoque, descricao = :descricao, imagem = :imagem, nivel_min = :nivel_min, fabricante = :fabricante WHERE id = '$id'");
 			$res->bindValue(":imagem", $imagem);
 	}
 	
@@ -89,6 +90,7 @@ $res->bindValue(":valor_venda", $valor_venda);
 $res->bindValue(":estoque", $estoque);
 $res->bindValue(":descricao", $descricao);
 $res->bindValue(":nivel_min", $nivel_min);
+$res->bindValue(":fabricante", $fabricante);
 
 $res->execute();
 

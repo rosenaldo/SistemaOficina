@@ -95,6 +95,7 @@ CREATE TABLE `produtos` (
   `descricao` text DEFAULT NULL,
   `imagem` varchar(100) DEFAULT NULL,
   `nivel_min` int(11) NOT NULL,
+  `fabricante` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 

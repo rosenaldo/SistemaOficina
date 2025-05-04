@@ -30,6 +30,7 @@ require_once("../conexao.php");
 						<th>Nome</th>
 						<th>Categoria</th>
 						<th>Fornecedor</th>
+						<th>Fabricante</th>
 						<th>Valor Compra</th>
 						<th>Valor Venda</th>
 						<th>Estoque</th>
@@ -57,6 +58,7 @@ require_once("../conexao.php");
 						$descricao = $res[$i]['descricao'];
 						$imagem = $res[$i]['imagem'];
 						$nivel_min = $res[$i]['nivel_min'];
+						$fabricante = $res[$i]['fabricante'];
 						$id = $res[$i]['id'];
 
 						if($estoque < $nivel_min){
@@ -86,6 +88,7 @@ require_once("../conexao.php");
 									<?php echo $nome_forn ?>
 								</a>
 							</td>
+							<td><?php echo $fabricante ?></td>
 							<td>R$ <?php echo $valor_compra ?></td>
 							<td>R$ <?php echo $valor_venda ?></td>
 							<td><span class="<?php echo $cor ?>"><?php echo $estoque ?></span></td>
@@ -138,6 +141,7 @@ require_once("../conexao.php");
 					$descricao2 = $res[0]['descricao'];
 					$imagem2 = $res[0]['imagem'];
 					$nivel_min = $res[0]['nivel_min'];
+					$fabricante = $res[0]['fabricante'];
 
 
 				} else {
@@ -234,6 +238,13 @@ require_once("../conexao.php");
 							<div class="form-group">
 								<label >Nível Mínimo</label>
 								<input value="<?php echo @$nivel_min ?>" type="number" class="form-control" id="nivel_min" name="nivel_min" placeholder="Nível Mínimo do Estoque">
+							</div>
+						</div>
+
+						<div class="col-md-3">
+						<div class="form-group">
+								<label >Fabricante</label>
+								<input value="<?php echo @$fabricante ?>" type="text" class="form-control" id="fabricante" name="fabricante" placeholder="Fabricante">
 							</div>
 						</div>
 					</div>

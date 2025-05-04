@@ -185,6 +185,7 @@ require_once("data_formatada.php");
 				<th>Nome</th>
 						<th>Categoria</th>
 						<th>Fornecedor</th>
+						<th>Fabricante</th>
 						<th>Valor Compra</th>
 						<th>Valor Venda</th>
 						<th>Estoque</th>
@@ -203,6 +204,7 @@ require_once("data_formatada.php");
 						$nome = $res[$i]['nome'];
 						$categoria = $res[$i]['categoria'];
 						$fornecedor = $res[$i]['fornecedor'];
+						$fabricante = $res[$i]['fabricante'];
 						$valor_compra = $res[$i]['valor_compra'];
 						$valor_venda = $res[$i]['valor_venda'];
 						$estoque = $res[$i]['estoque'];
@@ -237,6 +239,7 @@ require_once("data_formatada.php");
 									<?php echo $nome_forn ?>
 								
 							</td>
+							<td><?php echo $fabricante ?></td>
 							<td>R$ <?php echo $valor_compra ?></td>
 							<td>R$ <?php echo $valor_venda ?></td>
 							<td><?php echo $estoque ?></td>
