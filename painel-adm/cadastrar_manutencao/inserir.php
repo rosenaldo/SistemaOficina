@@ -1,41 +1,29 @@
-<?php 
-require_once("../../conexao.php"); 
+<?php
+@session_start();
+require_once("../../conexao.php");
 
-$nome = $_POST['nome_mec'];
+$pagina = 'cadastrar_manutencao';
+$descricao = $_POST['nome_mec'];
+$id = @$_POST['txtid2'];
 
-$antigo = $_POST['antigo'];
-$id = $_POST['txtid2'];
+// Verificar se o tipo PCM já existe
+$query = $pdo->prepare("SELECT * FROM tipo_pcm WHERE descricao = :descricao");
+$query->bindValue(":descricao", $descricao);
+$query->execute();
 
-if($nome == ""){
-	echo 'O nome é Obrigatório!';
-	exit();
+if($query->rowCount() > 0 && $id == ''){
+    echo "Este tipo PCM já está cadastrado!";
+    exit();
 }
 
-
-//VERIFICAR SE O REGISTRO JÁ EXISTE NO BANCO
-if($antigo != $nome){
-	$query = $pdo->query("SELECT * FROM tipo_pcm where descricao = '$nome' ");
-	$res = $query->fetchAll(PDO::FETCH_ASSOC);
-	$total_reg = @count($res);
-	if($total_reg > 0){
-		echo 'A PCM já está Cadastrada!';
-		exit();
-	}
-}
-
-
-if($id == ""){
-	$res = $pdo->prepare("INSERT INTO tipo_pcm SET descricao = :descricao");	
-
+if($id == "" || $id == 0){
+    $query = $pdo->prepare("INSERT INTO tipo_pcm SET descricao = :descricao");
 }else{
-	$res = $pdo->prepare("UPDATE tipo_pcm SET descricao = :descricao WHERE id = '$id'");
-		
+    $query = $pdo->prepare("UPDATE tipo_pcm SET descricao = :descricao WHERE id = '$id'");
 }
 
-$res->bindValue(":descricao", $nome);
-$res->execute();
+$query->bindValue(":descricao", $descricao);
+$query->execute();
 
-
-echo 'Salvo com Sucesso!';
-
+echo "Salvo com Sucesso!";
 ?>
