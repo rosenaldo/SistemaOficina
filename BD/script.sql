@@ -39,6 +39,10 @@ CREATE TABLE `usuarios` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+ALTER TABLE usuarios 
+ADD COLUMN remember_token VARCHAR(255) NULL,
+ADD COLUMN token_expira INT NULL;
+
 -- oficina.tipo_pcm definition
 
 CREATE TABLE `tipo_pcm` (

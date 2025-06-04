@@ -1,211 +1,386 @@
 <?php 
 require_once("conexao.php");
 
-//CRIAR AUTOMATICAMENTE O USUARIO ADMIN ----- MUDEI AQUI PARA CRIAR SEMPRE QUE ALGUEM ALTERAR PARA TESTES --------------------
+// CRIAR AUTOMATICAMENTE O USUARIO ADMIN
 $query = $pdo->query("SELECT * FROM usuarios where email = '$email_adm' and senha = '123'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 $total_reg = @count($res);
 if($total_reg == 0){
-	$res = $pdo->query("INSERT INTO usuarios SET nome = 'Administrador', cpf = '000.000.000-00', email = '$email_adm', senha = '123', nivel = 'admin'");	
+    $res = $pdo->query("INSERT INTO usuarios SET nome = 'Administrador', cpf = '000.000.000-00', email = '$email_adm', senha = '123', nivel = 'admin'");    
 }
 
-//EXCLUIR ORÇAMENTO APÓS XX DIAS
+// EXCLUIR ORÇAMENTO APÓS XX DIAS
 $data_hoje = date('Y-m-d');
 $data_15 = date('Y-m-d', strtotime("-$excluir_orcamento_dias days",strtotime($data_hoje)));
-
 
 $query = $pdo->query("SELECT * FROM orcamentos where data <= '$data_15'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 for ($i=0; $i < @count($res); $i++) { 
-		foreach ($res[$i] as $key => $value) {
+    foreach ($res[$i] as $key => $value) {
+    }
+    $id_orc = $res[$i]['id'];
+    $pdo->query("DELETE FROM orcamentos where id = '$id_orc'");
 }
-$id_orc = $res[$i]['id'];
-$pdo->query("DELETE FROM orcamentos where id = '$id_orc'");
- }
-
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
+
 <head>
-	<title>Faça seu Login</title>
-	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Gestão</title>
 
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<!------ Include the above in your HEAD tag ---------->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-	<meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/frytyler/pen/EGdtg" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'><script src='https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js'></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-	<link rel="shortcut icon" href="img/logo-favicon.ico" type="image/x-icon">
-	<link rel="icon" href="img/logo-favicon.ico" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-	<style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Open+Sans);
-	.btn { display: inline-block; *display: inline; *zoom: 1; padding: 4px 10px 4px; margin-bottom: 0; font-size: 13px; line-height: 18px; color: #333333; text-align: center;text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); vertical-align: middle; background-color: #f5f5f5; background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6); background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6)); background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6); background-image: -o-linear-gradient(top, #ffffff, #e6e6e6); background-image: linear-gradient(top, #ffffff, #e6e6e6); background-repeat: repeat-x; filter: progid:dximagetransform.microsoft.gradient(startColorstr=#ffffff, endColorstr=#e6e6e6, GradientType=0); border-color: #e6e6e6 #e6e6e6 #e6e6e6; border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); border: 1px solid #e6e6e6; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05); cursor: pointer; *margin-left: .3em; }
-	.btn:hover, .btn:active, .btn.active, .btn.disabled, .btn[disabled] { background-color: #e6e6e6; }
-	.btn-large { padding: 9px 14px; font-size: 15px; line-height: normal; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
-	.btn:hover { color: #333333; text-decoration: none; background-color: #e6e6e6; background-position: 0 -15px; -webkit-transition: background-position 0.1s linear; -moz-transition: background-position 0.1s linear; -ms-transition: background-position 0.1s linear; -o-transition: background-position 0.1s linear; transition: background-position 0.1s linear; }
-	.btn-primary, .btn-primary:hover { text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); color: #ffffff; }
-	.btn-primary.active { color: rgba(255, 255, 255, 0.75); }
-	.btn-primary { background-color: #4a77d4; background-image: -moz-linear-gradient(top, #6eb6de, #4a77d4); background-image: -ms-linear-gradient(top, #6eb6de, #4a77d4); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4)); background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4); background-image: -o-linear-gradient(top, #6eb6de, #4a77d4); background-image: linear-gradient(top, #6eb6de, #4a77d4); background-repeat: repeat-x; filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);  border: 1px solid #3762bc; text-shadow: 1px 1px 1px rgba(0,0,0,0.4); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5); }
-	.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] { filter: none; background-color: #4a77d4; }
-	.btn-block { width: 100%; display:block; }
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="img/logo-favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/logo-favicon.ico" type="image/x-icon">
 
-	* { -webkit-box-sizing:border-box; -moz-box-sizing:border-box; -ms-box-sizing:border-box; -o-box-sizing:border-box; box-sizing:border-box; }
+    <style>
+    :root {
+        --primary-color: #7C3AED;
+        --primary-light: #8B5CF6;
+        --primary-dark: #6D28D9;
+        --dark-color: #1F2937;
+        --light-color: #F9FAFB;
+        --gray-color: #6B7280;
+        --danger-color: #EF4444;
+    }
 
-	html { width: 100%; height:100%; overflow:hidden; }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+    }
 
-	body { 
-		width: 100%;
-		height:100%;
-		font-family: 'Open Sans', sans-serif;
-		background:rgb(161, 59, 239);
-		background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,rgb(38, 4, 78) 0%,rgb(21, 4, 66) 100%);
-		background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,rgb(18, 4, 63) 0%,#561209 100%);
-		background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -o-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -o-linear-gradient(-45deg,rgb(18, 2, 55) 0%,#561209 100%);
-		background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -ms-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -ms-linear-gradient(-45deg,rgb(17, 2, 60) 0%,#561209 100%);
-		background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(209, 83, 237, 0.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,rgb(13, 2, 52) 0%,#561209 100%);
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7354A5', endColorstr='#561209',GradientType=1 );
-	}
-	.login { 
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin: -150px 0 0 -150px;
-		width:300px;
-		height:300px;
-	}
-	.login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
+    .login-container {
+        width: 100%;
+        max-width: 400px;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        animation: fadeIn 0.5s ease-in-out;
+    }
 
-	.input { 
-		width: 100%; 
-		margin-bottom: 10px; 
-		background: rgba(0,0,0,0.3);
-		border: none;
-		outline: none;
-		padding: 10px;
-		font-size: 13px;
-		color: #fff;
-		text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
-		border: 1px solid rgba(0,0,0,0.3);
-		border-radius: 4px;
-		box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
-		-webkit-transition: box-shadow .5s ease;
-		-moz-transition: box-shadow .5s ease;
-		-o-transition: box-shadow .5s ease;
-		-ms-transition: box-shadow .5s ease;
-		transition: box-shadow .5s ease;
-	}
-	.input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
-</style>
+    .login-header {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
 
+    }
 
+    .login-header img {
+        max-width: 200px;
+        margin-bottom: 0.5rem;
+    }
 
+    .login-header h2 {
+        font-weight: 600;
+        margin-bottom: 0;
+        font-size: 1.5rem;
+    }
+
+    .login-body {
+        padding: 2rem;
+    }
+
+    .form-control {
+        height: 48px;
+        border-radius: 8px;
+        border: 1px solid #E5E7EB;
+        padding-left: 15px;
+        transition: all 0.3s;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-light);
+        box-shadow: 0 0 0 0.25rem rgba(124, 58, 237, 0.25);
+    }
+
+    .input-group-text {
+        background-color: transparent;
+        border-right: none;
+    }
+
+    .input-group .form-control {
+        border-left: none;
+    }
+
+    .input-group:focus-within .input-group-text {
+        color: var(--primary-color);
+    }
+
+    .btn-login {
+        background-color: var(--primary-color);
+        border: none;
+        color: white;
+        height: 48px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+    .btn-login:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-login:active {
+        transform: translateY(0);
+    }
+
+    .forgot-password {
+        color: var(--gray-color);
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.3s;
+    }
+
+    .forgot-password:hover {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid #E5E7EB;
+    }
+
+    .divider-text {
+        padding: 0 1rem;
+        color: var(--gray-color);
+        font-size: 0.875rem;
+    }
+
+    .footer-text {
+        text-align: center;
+        color: var(--gray-color);
+        font-size: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Modal de recuperação de senha */
+    .modal-content {
+        border-radius: 12px;
+        overflow: hidden;
+        border: none;
+    }
+
+    .modal-header {
+        background-color: var(--primary-color);
+        color: white;
+        border-bottom: none;
+    }
+
+    .modal-title {
+        font-weight: 600;
+    }
+
+    .btn-recover {
+        background-color: var(--primary-color);
+        border: none;
+    }
+
+    .btn-recover:hover {
+        background-color: var(--primary-dark);
+    }
+
+    /* Estilo para o botão do Google */
+    .g_id_signin {
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+
+    .g_id_signin iframe {
+        margin: 0 auto;
+        width: 100% !important;
+    }
+    </style>
 </head>
+
 <body>
+    <div class="login-container">
+        <div class="login-header">
+            <img src="img/logo-horizontal-branca.png" alt="Logo do Sistema">
+            <h2>Acesse sua conta</h2>
+        </div>
 
+        <div class="login-body">
+            <form method="post" action="autenticar.php">
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail"
+                            required value="<?php echo $email_adm ?>">
+                    </div>
+                </div>
 
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="senha" name="senha"
+                            placeholder="Digite sua senha" required value="123">
+                    </div>
+                </div>
 
-	<div class="login">
-		<div align="center" class="mb-4">
-			<img src="img/logo-horizontal-branca.png" width="270">
-		</div>
-		<form method="post" action="autenticar.php">
-			<input class="input" type="text" name="email" placeholder="Email" required="required" value="<?php echo $email_adm ?>"/>
-			<input class="input" type="password" name="senha" placeholder="Senha" required="required" value="123"/>
-			<button type="submit" class="btn btn-light btn-block btn-large">Logar</button>
-			<div align="center" class="mt-2">
-				<small><a href="" data-toggle="modal" data-target="#modalRecuperar" title="Clique para Recuperar sua Senha" class="text-light">Recuperar Senha?</a></small>
-			</div>
-		</form>
-	</div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="lembrar" name="lembrar">
+                        <label class="form-check-label" for="lembrar">Lembrar-me</label>
+                    </div>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalRecuperar" class="forgot-password">Esqueceu
+                        a senha?</a>
+                </div>
 
+                <button type="submit" class="btn btn-login btn-block w-100 mb-3">
+                    <i class="fas fa-sign-in-alt me-2"></i> Entrar
+                </button>
 
+                <div id="g_id_onload" data-client_id="SEU_CLIENT_ID.apps.googleusercontent.com" data-context="signin"
+                    data-ux_mode="popup" data-callback="handleGoogleSignIn" data-auto_prompt="false">
+                </div>
 
-</script>
-</body>
-</html>
+                <div class="g_id_signin" data-type="standard" data-shape="rectangular" data-theme="outline"
+                    data-text="signin_with" data-size="large" data-logo_alignment="left" data-width="300">
+                </div>
 
+                <div class="footer-text">
+                    © <?php echo date('Y'); ?> Sistema de Gestão. Todos os direitos reservados.
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Modal de recuperação de senha -->
+    <div class="modal fade" id="modalRecuperar" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Recuperar Senha</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <form method="POST" id="formRecover">
+                    <div class="modal-body">
+                        <p>Digite seu e-mail para receber as instruções de recuperação de senha.</p>
 
+                        <div class="mb-3">
+                            <label for="recoverEmail" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="recoverEmail" name="email"
+                                placeholder="Seu e-mail cadastrado">
+                        </div>
 
+                        <div id="mensagem" class="mt-2"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-recover text-white">Recuperar Senha</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modalRecuperar" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Recuperar Senha</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form method="POST" id="form">
-				<div class="modal-body">
-					<div class="form-group">
-						<label >Seu Email</label>
-						<input type="email" class="form-control" id="email" name="email" placeholder="Email">
-					</div>
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-					<small>
-						<div id="mensagem">
+    <script>
+    // AJAX para recuperação de senha
+    $("#formRecover").submit(function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
 
-						</div>
-					</small> 
-
-				</div>
-				<div class="modal-footer">
-					<button id="btn-fechar" type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-					<button type="submit" class="btn btn-info">Recuperar</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-
-
-<!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM OU SEM IMAGEM -->
-<script type="text/javascript">
-	$("#form").submit(function () {
-		
-		event.preventDefault();
-		var formData = new FormData(this);
-
-		$.ajax({
-			url:"recuperar.php",
-			type: 'POST',
-			data: formData,
-
-			success: function (mensagem) {
-				$('#mensagem').removeClass()
-				if (mensagem.trim() == "Sua senha foi Enviada para seu Email!") {
-                    //$('#nome').val('');
-                    //$('#btn-fechar').click();
-                    $('#mensagem').addClass('text-success')
+        $.ajax({
+            url: "recuperar.php",
+            type: 'POST',
+            data: formData,
+            success: function(mensagem) {
+                $('#mensagem').removeClass();
+                if (mensagem.trim() == "Sua senha foi Enviada para seu Email!") {
+                    $('#mensagem').addClass('alert alert-success');
+                    $('#formRecover')[0].reset();
                 } else {
-                	$('#mensagem').addClass('text-danger')
+                    $('#mensagem').addClass('alert alert-danger');
                 }
-                $('#mensagem').text(mensagem)
+                $('#mensagem').text(mensagem);
             },
-
             cache: false,
             contentType: false,
-            processData: false,
-            xhr: function () {  // Custom XMLHttpRequest
-            	var myXhr = $.ajaxSettings.xhr();
-                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
-                	myXhr.upload.addEventListener('progress', function () {
-                		/* faz alguma coisa durante o progresso do upload */
-                	}, false);
-                }
-                return myXhr;
-            }
+            processData: false
         });
-	});
-</script>
+    });
+
+    // Efeito de foco nos campos
+    $('.form-control').focus(function() {
+        $(this).parent().find('.input-group-text').css('color', 'var(--primary-color)');
+    }).blur(function() {
+        $(this).parent().find('.input-group-text').css('color', '');
+    });
 
 
+    // Verificar cookies ao carregar a página
+    $(document).ready(function() {
+        // Verificar se existem cookies salvos
+        if (getCookie('lembrar_email') && getCookie('lembrar_senha')) {
+            $('#email').val(getCookie('lembrar_email'));
+            $('#senha').val(getCookie('lembrar_senha'));
+            $('#lembrar').prop('checked', true);
+        }
+    });
+
+    // Função para obter cookies
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    </script>
+
+
+</body>
+
+
+
+
+</html>

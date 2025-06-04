@@ -13,7 +13,7 @@ $varios_serv = '';
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">
-            <i class="fas fa-tools mr-2"></i>Plano de Manutenção (PCM)
+            <i class="fas fa-cogs mr-2"></i>Planejamento e Controle de Manutenção (PCM)
         </h1>
         <a href="index.php?pag=<?php echo $pag ?>&funcao=novo"
             class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
@@ -150,7 +150,7 @@ $varios_serv = '';
                 }
                 ?>
                 <h5 class="modal-title" id="modalDadosLabel">
-                    <i class="fas fa-tools mr-2"></i><?php echo $titulo ?>
+                    <i class="fas fa-cogs mr-2"></i><?php echo $titulo ?>
                 </h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

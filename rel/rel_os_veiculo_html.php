@@ -1,385 +1,287 @@
 <?php 
 require_once("../conexao.php"); 
 @session_start();
-
 require_once("data_formatada.php"); 
 
 $id = $_GET['id'];
 
-$query_vei = $pdo->query("SELECT * FROM veiculos where id = '$id' ");
+$query_vei = $pdo->query("SELECT * FROM veiculos WHERE id = '$id'");
 $res_vei = $query_vei->fetchAll(PDO::FETCH_ASSOC);
-$marca = $res_vei[0]['marca'] . ' - ' .$res_vei[0]['modelo'];
+$marca = $res_vei[0]['marca'] . ' - ' . $res_vei[0]['modelo'];
 $placa = $res_vei[0]['placa'];
 $cor = $res_vei[0]['cor'];
 $ano = $res_vei[0]['ano'];
 $km = $res_vei[0]['km'];
 $cliente = $res_vei[0]['cliente'];
 
-$query_cli = $pdo->query("SELECT * FROM clientes where cpf = '$cliente' ");
+$query_cli = $pdo->query("SELECT * FROM clientes WHERE cpf = '$cliente'");
 $res_cli = $query_cli->fetchAll(PDO::FETCH_ASSOC);
 $nome_cli = $res_cli[0]['nome'];
 $telefone_cli = $res_cli[0]['telefone'];
 $endereco_cli = $res_cli[0]['endereco'];
-$email_cli = !empty($res_mec[0]['email']) ? $res_mec[0]['email'] : null;
-
-
-
+$email_cli = $res_cli[0]['email'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-	<title>Serviços do Veículo - <?php echo $marca ?></title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços do Veículo - <?php echo $marca ?></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    @page {
+        margin: 0;
+        size: A4;
+    }
 
-	<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
 
-		@page {
-			margin: 0px;
+    .header {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 30px;
+    }
 
-		}
+    .logo {
+        max-width: 150px;
+        height: auto;
+    }
 
-		.footer {
-			margin-top:20px;
-			width:100%;
-			background-color: #ebebeb;
-			padding:10px;
-			position:relative;
-			bottom:0;
-		}
+    .company-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
 
-		.cabecalho {    
-			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
-		}
+    .company-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
 
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+    .document-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
 
-		}
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 20px 0 10px;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 5px;
+    }
 
-		.subtitulo{
-			margin:0;
-			font-size:17px;
-			font-family:Arial, Helvetica, sans-serif;
-		}
+    .client-info, .vehicle-info {
+        margin-bottom: 20px;
+    }
 
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
-		}
+    .info-label {
+        font-weight: 600;
+        color: #7f8c8d;
+        display: inline-block;
+        width: 100px;
+    }
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			background-color: #f9f9f9;
-			margin-top:2px;
-		}
+    .info-value {
+        color: #2c3e50;
+    }
 
-		.pgto{
-			margin:1px;
-		}
+    .services-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-		.fonte13{
-			font-size:13px;
-		}
+    .services-table th {
+        background-color: #f8f9fa;
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+    }
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
-		}
+    .services-table td {
+        padding: 10px;
+        border: 1px solid #dee2e6;
+    }
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
-		}
+    .footer {
+        margin-top: 40px;
+        padding: 15px 0;
+        border-top: 2px solid #e9ecef;
+        text-align: center;
+        font-size: 12px;
+        color: #7f8c8d;
+    }
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
-		}
+    .total-box {
+        background-color: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px 0;
+        text-align: right;
+        font-weight: 600;
+    }
 
-		.texto-tabela{
-			font-size:12px;
-		}
+    .no-services {
+        color: #7f8c8d;
+        font-style: italic;
+        padding: 20px;
+        text-align: center;
+        border: 1px dashed #dee2e6;
+        border-radius: 5px;
+    }
 
+    .text-right {
+        text-align: right;
+    }
 
-		.esquerda_float{
-
-			margin-bottom:10px;
-			float:left;
-			display:inline;
-		}
-
-
-		.titulos{
-			margin-top:10px;
-		}
-
-		.image{
-			margin-top:-10px;
-		}
-
-		.margem-direita{
-			margin-right: 80px;
-		}
-
-		.margem-direita50{
-			margin-right: 50px;
-		}
-
-		hr{
-			margin:8px;
-			padding:1px;
-		}
-
-
-		.titulorel{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
-
-		}
-
-		.margem-superior{
-			margin-top:30px;
-		}
-
-
-	</style>
-
+    .text-center {
+        text-align: center;
+    }
+    </style>
 </head>
+
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <!-- <img src="../../img/logo2.png" alt="Logo" class="logo"> -->
+                </div>
+                <div class="col-md-10">
+                    <div class="company-name"><?php echo strtoupper($nome_oficina) ?></div>
+                    <div class="company-info">
+                        <?php echo $endereco_oficina ?> | Tel: <?php echo $telefone_oficina ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="document-title">HISTÓRICO DE SERVIÇOS - <?php echo $marca ?></h1>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="text-muted">Data: <?php echo $data_hoje ?></div>
+            </div>
+        </div>
 
-	<div class="cabecalho">
-		<div class="container">
-			<div class="row titulos">
-				<div class="col-sm-2 esquerda_float image">	
-					<!-- <img src="../img/logo2.png" width="100px"> -->
-				</div>
-				<div class="col-sm-10 esquerda_float">	
-					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
-					<h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
+        <div class="client-info">
+            <h5 class="section-title">DADOS DO CLIENTE</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><span class="info-label">Nome:</span> <span class="info-value"><?php echo $nome_cli ?></span></p>
+                    <p><span class="info-label">Email:</span> <span class="info-value"><?php echo $email_cli ?></span></p>
+                    <p><span class="info-label">Endereço:</span> <span class="info-value"><?php echo $endereco_cli ?></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><span class="info-label">Telefone:</span> <span class="info-value"><?php echo $telefone_cli ?></span></p>
+                    <p><span class="info-label">CPF:</span> <span class="info-value"><?php echo $cliente ?></span></p>
+                </div>
+            </div>
+        </div>
 
-				</div>
-			</div>
-		</div>
+        <div class="vehicle-info">
+            <h5 class="section-title">DADOS DO VEÍCULO</h5>
+            <div class="row">
+                <div class="col-md-12">
+                    <p><span class="info-label">Marca/Modelo:</span> <span class="info-value"><?php echo $marca ?></span></p>
+                    <p><span class="info-label">Placa:</span> <span class="info-value"><?php echo $placa ?></span> 
+                    <span class="info-label">Cor:</span> <span class="info-value"><?php echo $cor ?></span></p>
+                    <p><span class="info-label">Ano:</span> <span class="info-value"><?php echo $ano ?></span> 
+                    <span class="info-label">KM:</span> <span class="info-value"><?php echo $km ?></span></p>
+                </div>
+            </div>
+        </div>
 
-	</div>
+        <h5 class="section-title">SERVIÇOS REALIZADOS</h5>
+        <?php 
+        $totalValores = 0;
+        $query = $pdo->query("SELECT * FROM os WHERE veiculo = '$id' ORDER BY id ASC");
+        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (count($res) > 0) { 
+        ?>
+        <table class="services-table">
+            <thead>
+                <tr>
+                    <th width="25%">Serviço</th>
+                    <th width="15%" class="text-right">Mão de Obra</th>
+                    <th width="15%" class="text-right">Produtos/Peças</th>
+                    <th width="15%" class="text-right">Total</th>
+                    <th width="10%">Data</th>
+                    <th width="10%">Garantia</th>
+                    <th width="10%">Entrega</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                for ($i = 0; $i < count($res); $i++) {
+                    $cliente = $res[$i]['cliente'];
+                    $veiculo = $res[$i]['veiculo'];
+                    $descricao = $res[$i]['descricao'];
+                    $valor = $res[$i]['valor'];
+                    $valor_mao_obra = $res[$i]['valor_mao_obra'];
+                    $garantia = $res[$i]['garantia'];
+                    $data = $res[$i]['data'];
+                    $data_entrega = $res[$i]['data_entrega'];
+                    $concluido = $res[$i]['concluido'];
+                    $mecanico = $res[$i]['mecanico'];
+                    $tipo = $res[$i]['tipo'];
+                    $id_os = $res[$i]['id'];
 
-	<div class="container">
+                    $data = implode('/', array_reverse(explode('-', $data)));
+                    $data_entrega = implode('/', array_reverse(explode('-', $data_entrega)));
 
-		<div class="row">
-			<div class="col-sm-8 esquerda">	
-				<span class="titulorel"> Serviços do Veículo <?php echo $marca ?> </span>
-			</div>
-			<div class="col-sm-4 direita" align="right">	
-				<big> <small> Data: <?php echo $data_hoje; ?></small> </big>
-			</div>
-		</div>
+                    $valorPeca = $valor - $valor_mao_obra;
+                    $totalValores += $valor;
 
+                    $valorF = number_format($valor, 2, ',', '.');
+                    $valor_mao_obraF = number_format($valor_mao_obra, 2, ',', '.');
+                    $valorPecaF = number_format($valorPeca, 2, ',', '.');
+                    
+                    $query_cat = $pdo->query("SELECT * FROM mecanicos WHERE cpf = '$mecanico'");
+                    $res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_mecanico = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : 'Não informado';
+                ?>
+                <tr>
+                    <td><?php echo $descricao ?></td>
+                    <td class="text-right">R$ <?php echo $valor_mao_obraF ?></td>
+                    <td class="text-right">R$ <?php echo $valorPecaF ?></td>
+                    <td class="text-right">R$ <?php echo $valorF ?></td>
+                    <td><?php echo $data ?></td>
+                    <td><?php echo $garantia ?> Dias</td>
+                    <td><?php echo $data_entrega ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+        
+        <div class="total-box">
+            TOTAL DE SERVIÇOS: R$ <?php echo number_format($totalValores, 2, ',', '.') ?>
+        </div>
+        <?php } else { ?>
+            <div class="no-services">Este veículo ainda não possui serviços registrados</div>
+        <?php } ?>
 
-		<hr>
+        <div class="footer">
+            <?php echo $rodape_relatorios ?>
+        </div>
+    </div>
 
-
-
-
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="fonte13"> <b> Dados do Cliente </b> </p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="esquerda">
-				<div class="col-sm-6">
-					<p class="fonte13">  Nome: <?php echo $nome_cli; ?> </p>
-
-					<p class="fonte13">  Email: <?php echo $email_cli; ?> </p>
-
-					<p class="fonte13">  Endereço: <?php echo $endereco_cli; ?> </p>
-				</div>
-				
-			</div>
-
-			<div class="direita">
-				<div class="col-sm-6">
-					<p class="fonte13">  Telefone: <?php echo $telefone_cli; ?> </p>
-					<p class="fonte13">  CPF: <?php echo $cliente; ?> </p>
-					<p class="fonte13"> &nbsp;&nbsp;  </p>
-				</div>
-			</div>
-		</div>
-
-
-
-		<hr>
-
-
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="fonte13"> <b> Dados do Veículo </b> </p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13 ">  Marca / Modelo: <?php echo $marca; ?> </p>
-				</div>
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13">  Placa: <?php echo $placa; ?>  </p>
-				</div>
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13">  Cor: <?php echo $cor ?> </p>
-				</div>
-				<div class="">
-					<p class="fonte13">  Ano: <?php echo $ano ?> KM: <?php echo $km ?> </p>
-
-				</div>
-
-
-			</div>
-		</div>
-
-		<?php 
-
-
-			$totalValores = 0;
-					$totalValoresF = 0;
-					$query = $pdo->query("SELECT * FROM os where veiculo = '$id' order by id asc");
-					$res = $query->fetchAll(PDO::FETCH_ASSOC);
-					if(@count($res) > 0){
-
-		 ?>
-
-		<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-			<tr bgcolor='#f9f9f9' >
-						<th>Serviço</th>
-						<th>Mão de Obra</th>
-						<th>Produtos / Peças</th>
-						<th>Total Serviço</th>
-						<th>Data</th>
-						<th>Garantia</th>
-						<th>Data Entrega</th>
-
-			</tr>
-
-			<?php 
-					
-					
-					for ($i=0; $i < @count($res); $i++) { 
-						foreach ($res[$i] as $key => $value) {
-						}
-						$cliente = $res[$i]['cliente'];
-						$veiculo = $res[$i]['veiculo'];
-						$descricao = $res[$i]['descricao'];
-						$valor = $res[$i]['valor'];
-						$valor_mao_obra = $res[$i]['valor_mao_obra'];
-						$garantia = $res[$i]['garantia'];
-						$data = $res[$i]['data'];
-						$data_entrega = $res[$i]['data_entrega'];
-						$concluido = $res[$i]['concluido'];
-						$mecanico = $res[$i]['mecanico'];
-						$tipo = $res[$i]['tipo'];
-						$id = $res[$i]['id'];
-
-						$data = implode('/', array_reverse(explode('-', $data)));
-						$data_entrega = implode('/', array_reverse(explode('-', $data_entrega)));
-
-						$valorPeca = $valor - $valor_mao_obra;
-						$totalValores = $totalValores + $valor;
-
-						$valorF = number_format($valor, 2, ',', '.');
-						$valor_mao_obraF = number_format($valor_mao_obra, 2, ',', '.');
-						$valorPecaF = number_format($valorPeca, 2, ',', '.');
-						$totalValoresF = number_format($totalValores, 2, ',', '.');
-
-
-						$query_cat = $pdo->query("SELECT * FROM clientes where cpf = '$cliente' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_cli = $res_cat[0]['nome'];
-						$email_cli = $res_cat[0]['email'];
-
-						$query_cat = $pdo->query("SELECT * FROM veiculos where id = '$veiculo' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$modelo = $res_cat[0]['modelo'];
-						$marca = $res_cat[0]['marca'];
-
-
-						
-						$query_cat = $pdo->query("SELECT * FROM mecanicos where cpf = '$mecanico' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_mecanico = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : null;
-
-						?>
-
-						<tr>
-							<td>
-								<?php echo $descricao ?></td>
-							<td>R$<?php echo $valor_mao_obraF ?></td>
-							<td>R$ <?php echo $valorPecaF ?></td>
-							<td>R$ <?php echo $valorF ?></td>
-							<td><?php echo $data ?></td>
-							<td><?php echo $garantia ?> Dias</td>
-							<td><?php echo $data_entrega ?></td>
-							
-							
-							
-						</tr>
-					<?php } }else{
-						echo '<h4>Este veículo ainda não possui serviços!</h4>';
-						}
-
-					 ?>
-
-
-
-		</table>
-
-		<hr>
-
-
-		<div class="row margem-superior">
-			<div class="col-md-12">
-				<div class="" align="right">	
-					<span class="areaTotal"> <b> Total de Serviços : R$<?php echo $totalValoresF ?> </b> </span>
-				</div>
-								
-			</div>
-		</div>
-
-		<hr>
-
-
-	</div>
-
-
-	<div class="footer">
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
-	</div>
-
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

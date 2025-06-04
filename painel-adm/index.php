@@ -163,7 +163,7 @@ if($nivel_est > 0){
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManutencao" aria-expanded="true" aria-controls="collapseManutencao">
                         <i class="fas fa-cogs"></i>
-                        <span>Planejamento de Manutenção (PCM)</span>
+                        <span>Planejamento e Controle de Manutenção (PCM)</span>
                     </a>
                     <div id="collapseManutencao" class="collapse" aria-labelledby="headingManutencao" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
@@ -177,10 +177,20 @@ if($nivel_est > 0){
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?pag=<?php echo $menu10 ?>">
-                    <i class="fas fa-paste fa-chart-area"></i>
-                    <span class="">Gerar Orçamento</span></a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrcamento" aria-expanded="true" aria-controls="collapseOrcamento">
+                        <i class="fas fa-paste fa-chart-area"></i>
+                        <span>Orçamentos</span>
+                    </a>
+                    <div id="collapseOrcamento" class="collapse" aria-labelledby="headingOrcamento" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            
+                            <a class="collapse-item" href="index.php?pag=<?php echo $menu10 ?>">Gerar Orçamento</a>
+                            <a class="collapse-item" href="index.php?pag=<?php echo $menu15 ?>">Aprovar Orçamento</a>
+
+                        </div>
+                    </div>
                 </li>
+
 
                 <!-- Divider -->
                 <hr class="sidebar-divider">
@@ -191,12 +201,6 @@ if($nivel_est > 0){
                 </div>
 
 <!-- -----------------------------------------------  -->
-
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?pag=<?php echo $menu15 ?>">
-                    <i class="fas fa-paste fa-chart-area"></i>
-                    <span class="">Aprovar Orçamento</span></a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="index.php?pag=<?php echo $menu16 ?>">
