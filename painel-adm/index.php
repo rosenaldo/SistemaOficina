@@ -108,15 +108,15 @@ if($nivel_est > 0){
 
                 <!-- Heading -->
                 <div class="sidebar-heading">
-                    Cadastros
+                    Gerenciar
                 </div>
 
 
 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                        <i class="fas fa-users"></i>
-                        <span>Pessoas</span>
+                        <i class="fas fa-plus"></i>
+                        <span>Cadastros</span>
                     </a>
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
@@ -125,19 +125,23 @@ if($nivel_est > 0){
                             <a class="collapse-item" href="index.php?pag=<?php echo $menu2 ?>">Recepcionistas</a>
                             <a class="collapse-item" href="index.php?pag=<?php echo $menu3 ?>">Fornecedores</a>
                             <a class="collapse-item" href="index.php?pag=<?php echo $menu13 ?>">Clientes</a>
+                            <a class="collapse-item" href="index.php?pag=<?php echo $menu14 ?>">Veículos</a>
+                            <a class="collapse-item" href="index.php?pag=<?php echo $menu4 ?>">Categoria dos produtos</a>
+                            <a class="collapse-item" href="index.php?pag=<?php echo $menu5 ?>">Produtos</a>
+                            <a class="collapse-item" href="index.php?pag=<?php echo $menu8 ?>">Tipo Serviço</a>
                         </div>
                     </div>
                 </li>
 
                 <!-- Nav Item - Utilities Collapse Menu -->
                 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="index.php?pag=<?php echo $menu14 ?>">
                     <i class="fas fa-car"></i>
                     <span class="">Veículos</span></a>
-                </li>
+                </li> -->
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                         <i class="fas fa-plus"></i>
                         <span>Produtos</span>
@@ -151,13 +155,13 @@ if($nivel_est > 0){
 
                         </div>
                     </div>
-                </li>
+                </li> -->
 
-                 <li class="nav-item">
+                 <!-- <li class="nav-item">
                     <a class="nav-link" href="index.php?pag=<?php echo $menu8 ?>">
                         <i class="fas fa-fw fa-tools"></i>
                         <span class="">Tipo Serviço</span></a>
-                </li>
+                </li> -->
                 
 
                 <li class="nav-item">

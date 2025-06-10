@@ -1,14 +1,12 @@
-<?php 
-require_once("../../conexao.php"); 
+<?php
+require_once("../../conexao.php");
 @session_start();
 
 $id = $_GET['id'];
+require_once("data_formatada.php");
 
-require_once("data_formatada.php"); 
-
-
-//DADOS DO ORÇAMENTO
-$query_orc = $pdo->query("SELECT * FROM os where id = '$id' ");
+// DADOS DA ORDEM DE SERVIÇO
+$query_orc = $pdo->query("SELECT * FROM os WHERE id = '$id'");
 $res_orc = $query_orc->fetchAll(PDO::FETCH_ASSOC);
 $cpf_cliente = $res_orc[0]['cliente'];
 $veiculo = $res_orc[0]['veiculo'];
@@ -22,510 +20,459 @@ $data_entrega = $res_orc[0]['data_entrega'];
 $tipo = $res_orc[0]['tipo'];
 $id_orc = $res_orc[0]['id_orc'];
 $concluido = $res_orc[0]['concluido'];
-$data = $res_orc[0]['data'];
-
 $garantia = $res_orc[0]['garantia'];
 
-$data_entrega = implode('/', array_reverse(explode('-', $data_entrega)));
-$data = implode('/', array_reverse(explode('-', $data)));
-
-
+// Formatação de valores
 $valor_orc_f = number_format($valor_orc, 2, ',', '.');
 $valor_f = number_format($valor, 2, ',', '.');
 
-$query_mec = $pdo->query("SELECT * FROM mecanicos where cpf = '$mecanico' ");
+// DADOS DO MECÂNICO
+$query_mec = $pdo->query("SELECT * FROM mecanicos WHERE cpf = '$mecanico'");
 $res_mec = $query_mec->fetchAll(PDO::FETCH_ASSOC);
-$nome_servico = !empty($res_mec[0]['nome']) ? $res_mec[0]['nome'] : null;
-$nome_mecanico = 'Marcos';
+$nome_mecanico = !empty($res_mec[0]['nome']) ? $res_mec[0]['nome'] : 'Não informado';
 
-
-$query_cli = $pdo->query("SELECT * FROM clientes where cpf = '$cpf_cliente' ");
+// DADOS DO CLIENTE
+$query_cli = $pdo->query("SELECT * FROM clientes WHERE cpf = '$cpf_cliente'");
 $res_cli = $query_cli->fetchAll(PDO::FETCH_ASSOC);
-$nome_cli = $res_cli[0]['nome'];
-$telefone_cli = $res_cli[0]['telefone'];
-$endereco_cli = $res_cli[0]['endereco'];
-$email_cli = $res_cli[0]['email'];
 
+$nome_cli = !empty($res_cli[0]['nome']) ? $res_cli[0]['nome'] : 'Não informado';
+$telefone_cli = !empty($res_cli[0]['telefone']) ? $res_cli[0]['telefone'] : 'Não informado';
+$endereco_cli = !empty($res_cli[0]['endereco']) ? $res_cli[0]['endereco'] : 'Não informado';
+$email_cli = !empty($res_cli[0]['email']) ? $res_cli[0]['email'] : 'Não informado';
 
-$query_vei = $pdo->query("SELECT * FROM veiculos where id = '$veiculo' ");
+// DADOS DO VEÍCULO
+$query_vei = $pdo->query("SELECT * FROM veiculos WHERE id = '$veiculo'");
 $res_vei = $query_vei->fetchAll(PDO::FETCH_ASSOC);
-$marca = $res_vei[0]['marca'] . ' - ' .$res_vei[0]['modelo'];
-$placa = $res_vei[0]['placa'];
-$cor = $res_vei[0]['cor'];
-$ano = $res_vei[0]['ano'];
-$km = $res_vei[0]['km'];
 
+$marca_modelo = 'Não informado';
+$placa = 'Não informado';
+$cor = 'Não informado';
+$ano = 'Não informado';
+$km = 'Não informado';
+
+if (!empty($res_vei[0])) {
+	$marca = !empty($res_vei[0]['marca']) ? $res_vei[0]['marca'] : 'Não informado';
+	$modelo = !empty($res_vei[0]['modelo']) ? $res_vei[0]['modelo'] : 'Não informado';
+	$marca_modelo = $marca . ($marca != 'Não informado' && $modelo != 'Não informado' ? ' - ' : '') . $modelo;
+
+	$placa = !empty($res_vei[0]['placa']) ? $res_vei[0]['placa'] : 'Não informado';
+	$cor = !empty($res_vei[0]['cor']) ? $res_vei[0]['cor'] : 'Não informado';
+	$ano = !empty($res_vei[0]['ano']) ? $res_vei[0]['ano'] : 'Não informado';
+	$km = !empty($res_vei[0]['km']) ? $res_vei[0]['km'] : 'Não informado';
+}
+
+
+
+// Formatação de datas
+$data_entrega = implode('/', array_reverse(explode('-', $data_entrega)));
+$data = implode('/', array_reverse(explode('-', $data_orc)));
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
 <head>
-	<title>Relatório de OS</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ordem de Serviço</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 	<style>
-
 		@page {
-			margin: 0px;
+			margin: 0;
+			size: A4;
+		}
 
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			color: #333;
+			line-height: 1.6;
+		}
+
+		.header {
+			background-color: #f8f9fa;
+			padding: 20px 0;
+			border-bottom: 2px solid #e9ecef;
+			margin-bottom: 30px;
+		}
+
+		.logo {
+			max-width: 150px;
+			height: auto;
+		}
+
+		.company-name {
+			font-size: 24px;
+			font-weight: 700;
+			color: #2c3e50;
+			margin-bottom: 5px;
+		}
+
+		.company-info {
+			font-size: 14px;
+			color: #7f8c8d;
+		}
+
+		.document-title {
+			font-size: 22px;
+			font-weight: 600;
+			color: #2c3e50;
+			margin-bottom: 20px;
+			text-transform: uppercase;
+		}
+
+		.section-title {
+			font-size: 16px;
+			font-weight: 600;
+			color: #2c3e50;
+			margin: 20px 0 10px;
+			border-bottom: 1px solid #e9ecef;
+			padding-bottom: 5px;
+		}
+
+		.client-info,
+		.vehicle-info {
+			margin-bottom: 20px;
+		}
+
+		.info-label {
+			font-weight: 600;
+			color: #7f8c8d;
+			display: inline-block;
+			width: 120px;
+		}
+
+		.info-value {
+			color: #2c3e50;
+		}
+
+		.service-table {
+			width: 100%;
+			border-collapse: collapse;
+			margin-bottom: 20px;
+		}
+
+		.service-table th {
+			background-color: #f8f9fa;
+			text-align: left;
+			padding: 10px;
+			border: 1px solid #dee2e6;
+			font-weight: 600;
+		}
+
+		.service-table td {
+			padding: 10px;
+			border: 1px solid #dee2e6;
+		}
+
+		.total-box {
+			background-color: #f8f9fa;
+			padding: 15px;
+			border-radius: 5px;
+			border: 1px solid #dee2e6;
+			margin-top: 20px;
 		}
 
 		.footer {
-			margin-top:20px;
-			width:100%;
-			background-color: #ebebeb;
-			padding:10px;
+			margin-top: 40px;
+			padding: 15px 0;
+			border-top: 2px solid #e9ecef;
+			text-align: center;
+			font-size: 12px;
+			color: #7f8c8d;
 		}
 
-		.cabecalho {    
-			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
-		}
-
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
-
-		}
-
-		.subtitulo{
-			margin:0;
-			font-size:17px;
-			font-family:Arial, Helvetica, sans-serif;
-		}
-
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
+		.observation {
+			background-color: #f8f9fa;
+			padding: 10px;
 			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
+			margin: 10px 0;
 		}
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			background-color: #f9f9f9;
-			margin-top:2px;
+		.signature-area {
+			margin-top: 50px;
+			padding-top: 20px;
+			border-top: 1px dashed #7f8c8d;
 		}
 
-		.pgto{
-			margin:1px;
+		.signature-line {
+			width: 300px;
+			border-top: 1px solid #7f8c8d;
+			margin: 30px auto 0;
+			text-align: center;
+			padding-top: 5px;
+			font-size: 12px;
 		}
 
-		.fonte13{
-			font-size:13px;
+		.no-service {
+			color: #7f8c8d;
+			font-style: italic;
+			padding: 10px;
 		}
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
+		.status-badge {
+			padding: 5px 10px;
+			border-radius: 20px;
+			font-size: 12px;
+			font-weight: 600;
 		}
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
+		.status-completed {
+			background-color: #d4edda;
+			color: #155724;
 		}
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
+		.status-pending {
+			background-color: #fff3cd;
+			color: #856404;
 		}
 
-		.texto-tabela{
-			font-size:12px;
+		.total-amount {
+			font-size: 18px;
+			font-weight: 700;
+			color: #2c3e50;
 		}
-
-
-		.esquerda_float{
-
-			margin-bottom:10px;
-			float:left;
-			display:inline;
-		}
-
-
-		.titulos{
-			margin-top:10px;
-		}
-
-		.image{
-			margin-top:-10px;
-		}
-
-		.margem-direita{
-			margin-right: 80px;
-		}
-
-		hr{
-			margin:8px;
-			padding:1px;
-		}
-
-
 	</style>
-
 </head>
+
 <body>
-
-
-	<div class="cabecalho">
-		<div class="container">
-			<div class="row titulos">
-				<div class="col-sm-2 esquerda_float image">	
-					<!-- <img src="../../img/logo2.png" width="100px"> -->
-				</div>
-				<div class="col-sm-10 esquerda_float">	
-					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
-					<h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
-
-				</div>
-			</div>
-		</div>
-
-	</div>
-
 	<div class="container">
-
-		<div class="row">
-			<div class="col-sm-8 esquerda">	
-				<big> Ordem de Serviço Nº <?php echo $id ?>   </big>
-			</div>
-			<div class="col-sm-4 direita" align="right">	
-				<big> <small> Data da Geração da OS: <?php echo $data; ?></small> </big>
-			</div>
-		</div>
-
-
-		<hr>
-
-
-
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="fonte13"> <b> Dados do Cliente </b> </p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="esquerda">
-				<div class="col-sm-6">
-					<p class="fonte13">  Nome: <?php echo $nome_cli; ?> </p>
-
-					<p class="fonte13">  Email: <?php echo $email_cli; ?> </p>
-
-					<p class="fonte13">  Endereço: <?php echo $endereco_cli; ?> </p>
+		<div class="header">
+			<div class="row align-items-center">
+				<div class="col-md-2">
+					<!-- <img src="../../img/logo2.png" alt="Logo" class="logo"> -->
 				</div>
-				
-			</div>
-
-			<div class="direita">
-				<div class="col-sm-6">
-					<p class="fonte13">  Telefone: <?php echo $telefone_cli; ?> </p>
-					<p class="fonte13">  CPF: <?php echo $cpf_cliente; ?> </p>
-					<p class="fonte13"> &nbsp;&nbsp;  </p>
+				<div class="col-md-10">
+					<div class="company-name"><?php echo strtoupper($nome_oficina) ?></div>
+					<div class="company-info">
+						<?php echo $endereco_oficina ?> | Tel: <?php echo $telefone_oficina ?>
+					</div>
 				</div>
 			</div>
 		</div>
 
-
-
-		<hr>
-
-
-		<div class="row">
-			<div class="col-sm-12">
-				<p class="fonte13"> <b> Dados do Veículo </b> </p>
+		<div class="row mb-4">
+			<div class="col-md-8">
+				<h1 class="document-title">ORDEM DE SERVIÇO Nº <?php echo $id ?></h1>
+			</div>
+			<div class="col-md-4 text-end">
+				<div class="text-muted">Data: <?php echo $data ?></div>
+				<div class="mt-2">
+					<span
+						class="status-badge <?php echo $concluido == 'Sim' ? 'status-completed' : 'status-pending' ?>">
+						<?php echo $concluido == 'Sim' ? 'CONCLUÍDO' : 'PENDENTE' ?>
+					</span>
+				</div>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13 ">  Marca / Modelo: <?php echo $marca; ?> </p>
+		<div class="client-info">
+			<h5 class="section-title">DADOS DO CLIENTE</h5>
+			<div class="row">
+				<div class="col-md-6">
+					<p><span class="info-label">Nome:</span> <span class="info-value"><?php echo $nome_cli ?></span></p>
+					<p><span class="info-label">Email:</span> <span class="info-value"><?php echo $email_cli ?></span>
+					</p>
+					<p><span class="info-label">Endereço:</span> <span
+							class="info-value"><?php echo $endereco_cli ?></span></p>
 				</div>
-				<div class="esquerda_float margem-direita">
-					<p class="fonte13">  Placa: <?php echo $placa; ?> Cor: <?php echo $cor ?> </p>
+				<div class="col-md-6">
+					<p><span class="info-label">Telefone:</span> <span
+							class="info-value"><?php echo $telefone_cli ?></span></p>
+					<p><span class="info-label">CPF/CNPJ:</span> <span
+							class="info-value"><?php echo $cpf_cliente ?></span></p>
 				</div>
-				<div class="">
-					<p class="fonte13">  Ano: <?php echo $ano ?> KM: <?php echo $km ?> </p>
-
-				</div>
-
-
 			</div>
 		</div>
 
-		
-				<div class="">
-					<p class="fonte13">  Observações: <?php echo $obs; ?> </p>
-
+		<div class="vehicle-info">
+			<h5 class="section-title">DADOS DO VEÍCULO</h5>
+			<div class="row">
+				<div class="col-md-12">
+					<p><span class="info-label">Marca/Modelo:</span> <span
+							class="info-value"><?php echo $marca_modelo ?></span></p>
+					<p><span class="info-label">Placa:</span> <span class="info-value"><?php echo $placa ?></span>
+						<span class="info-label">Cor:</span> <span class="info-value"><?php echo $cor ?></span>
+					</p>
+					<p><span class="info-label">Ano:</span> <span class="info-value"><?php echo $ano ?></span>
+						<span class="info-label">KM:</span> <span class="info-value"><?php echo $km ?></span>
+					</p>
 				</div>
-
-		<hr>
-
-
-
-		<div class="row ">
-			<div class="col-sm-12">
-				<p style="font-size:14px"> <b> Dados do Serviço </b> </p>
+			</div>
+			<div class="observation">
+				<p><strong>Observações:</strong> <?php echo $obs ?></p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-12">	
-				
-				<?php 
-						$query_s = $pdo->query("SELECT * FROM orc_serv where orcamento = '$id_orc' ");
-						$res_s = $query_s->fetchAll(PDO::FETCH_ASSOC);
-						if(@count($res_s) == 0){
-							$nome_serv = "Não Lançado!";
-							echo '<p style="font-size:13px"> <b> Serviço: </b>'; 
-							echo $nome_serv;
-							
-						}else if(@count($res_s) == 1){
-							$serv = $res_s[0]['servico'];
-							echo '<p style="font-size:13px"> <b>Tipo de Serviço: </b>'; 
-							
-						$query_ser = $pdo->query("SELECT * FROM servicos where id = '$serv' ");
-						$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-						$nome_serv = $res_ser[0]['nome'];
-						echo $nome_serv;
 
-						}else{
-							echo '<p style="font-size:13px"> <b> '.count($res_s).' Serviços: </b>'; 
-							
-							for ($i=0; $i < @count($res_s); $i++) { 
-							foreach ($res_s[$i] as $key => $value) {
-							}
+		<!-- SERVIÇOS -->
+		<div class="service-section">
+			<h5 class="section-title">SERVIÇOS</h5>
+			<?php
+			$query_s = $pdo->query("SELECT * FROM orc_serv WHERE orcamento = '$id_orc'");
+			$res_s = $query_s->fetchAll(PDO::FETCH_ASSOC);
 
+			if (count($res_s) > 0) {
+			?>
+				<table class="service-table">
+					<thead>
+						<tr>
+							<th width="70%">Descrição</th>
+							<th width="30%">Valor</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$total_servicos = 0;
+						for ($i = 0; $i < count($res_s); $i++) {
 							$serv = $res_s[$i]['servico'];
-							
-						$query_ser = $pdo->query("SELECT * FROM servicos where id = '$serv' ");
-						$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-						$nome_serv = $res_ser[0]['nome'];
 
-
-						if($i + 1 == @count($res_s)){
-							echo $nome_serv;
-						}else{
-							echo $nome_serv .', ';
-						}
-						
-
-						}
-							
-						}
-						
-					 ?> 
-
-				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					<?php if($garantia > 0){ ?>
-						<b>Garantia: </b> <?php echo $garantia ?> Dias <?php } ?> </p>
-						
-					</div>
-
-
-				</div>
-
-
-
-
-				<?php 
-				$total_ser = 0;
-				$valor_ser = 0;
-				$valor_ser_f = 0;
-				$total_ser_f = 0;
-				$total_pagar_ser = 0;
-				$total_pagar_ser_f = 0;
-				$query = $pdo->query("SELECT * FROM orc_serv where orcamento = '$id_orc' ");
-				$res = $query->fetchAll(PDO::FETCH_ASSOC);
-				if(@count($res) > 0){
-					?>
-					<small>
-					<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-						<tr bgcolor='#f9f9f9' >
-							<td> <b>Serviço</b> </td>
-							<td> <b>Valor</b> </td>
-							
-						</tr>
-						<?php 
-
-
-						for ($i=0; $i < @count($res); $i++) { 
-							foreach ($res[$i] as $key => $value) {
-							}
-							$serv = $res[$i]['servico'];
-
-							$query_ser = $pdo->query("SELECT * FROM servicos where id = '$serv' ");
+							$query_ser = $pdo->query("SELECT * FROM servicos WHERE id = '$serv'");
 							$res_ser = $query_ser->fetchAll(PDO::FETCH_ASSOC);
-							$nome_ser = $res_ser[0]['nome'];
-							$valor_ser = $res_ser[0]['valor'];
-							$id_ser = $res_ser[0]['id'];
+							$nome_serv = $res_ser[0]['nome'];
+							$valor_serv = $res_ser[0]['valor'];
+							$total_servicos += $valor_serv;
 
-							$total_ser = $valor_ser + $total_ser;
-							$total_pagar_ser = $total_ser + $valor_ser;
-
-							$valor_ser_f = number_format($valor_ser, 2, ',', '.');
-							$total_ser_f = number_format($total_ser, 2, ',', '.');
-							$total_pagar_ser_f = number_format($total_pagar_ser, 2, ',', '.');
-
-							?>
-
+							$valor_serv_f = number_format($valor_serv, 2, ',', '.');
+						?>
 							<tr>
-								<td> <?php echo $nome_ser; ?> </td>
-								<td>R$ <?php echo $valor_ser_f; ?> </td>
-								
-
+								<td><?php echo $nome_serv ?></td>
+								<td>R$ <?php echo $valor_serv_f ?></td>
 							</tr>
-
 						<?php } ?>
+					</tbody>
+				</table>
+			<?php } else { ?>
+				<div class="no-service">Nenhum serviço cadastrado</div>
+			<?php } ?>
+		</div>
 
-					</table>
-				</small>
-				<?php }else{
-					$total_pagar = $valor_ser;
-					$total_pagar_ser_f = number_format($total_pagar_ser, 2, ',', '.');
+		<!-- PEÇAS/PRODUTOS -->
+		<?php if ($tipo == 'Orçamento') { ?>
+			<div class="service-section">
+				<h5 class="section-title">PEÇAS/PRODUTOS</h5>
+				<?php
+				$query_p = $pdo->query("SELECT * FROM orc_prod WHERE orcamento = '$id_orc'");
+				$res_p = $query_p->fetchAll(PDO::FETCH_ASSOC);
 
-				} ?>
-
-				<hr>
-
-
-
-
-
-				<?php 
-				if($tipo == 'Orçamento'){
-				$total_prod = 0;
-				$valor_prod_f = 0;
-				$total_prod_f = 0;
-				$total_pagar_f = 0;
-				$query = $pdo->query("SELECT * FROM orc_prod where orcamento = '$id_orc' ");
-				$res = $query->fetchAll(PDO::FETCH_ASSOC);
-				if(@count($res) > 0){
-					?>
-					<small>
-					<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-						<tr bgcolor='#f9f9f9' >
-							<td> <b>Peça / Produto</b> </td>
-							<td> <b>Valor</b> </td>
-							<td> <b> Quantidade</b> </td>
-
-						</tr>
-						<?php 
-
-
-						for ($i=0; $i < @count($res); $i++) { 
-							foreach ($res[$i] as $key => $value) {
-							}
-							$prod = $res[$i]['produto'];
-
-							$query_pro = $pdo->query("SELECT * FROM produtos where id = '$prod' ");
-							$res_pro = $query_pro->fetchAll(PDO::FETCH_ASSOC);
-							$nome_prod = $res_pro[0]['nome'];
-							$valor_prod = $res_pro[0]['valor_venda'];
-							$id_prd = $res_pro[0]['id'];
-
-							$total_prod = $valor_prod + $total_prod;
-							$total_pagar = $total_prod + $valor_orc;
-
-							$valor_prod_f = number_format($valor_prod, 2, ',', '.');
-							$total_prod_f = number_format($total_prod, 2, ',', '.');
-							$total_pagar_f = number_format($total_pagar, 2, ',', '.');
-
-							?>
-
+				if (count($res_p) > 0) {
+				?>
+					<table class="service-table">
+						<thead>
 							<tr>
-								<td> <?php echo $nome_prod; ?> </td>
-								<td>R$ <?php echo $valor_prod_f; ?> </td>
-								<td> 1 </td>
-
+								<th width="50%">Descrição</th>
+								<th width="20%">Valor Unitário</th>
+								<th width="10%">Qtd</th>
+								<th width="20%">Total</th>
 							</tr>
+						</thead>
+						<tbody>
+							<?php
+							$total_produtos = 0;
+							for ($i = 0; $i < count($res_p); $i++) {
+								$prod = $res_p[$i]['produto'];
 
-						<?php } ?>
+								$query_prod = $pdo->query("SELECT * FROM produtos WHERE id = '$prod'");
+								$res_prod = $query_prod->fetchAll(PDO::FETCH_ASSOC);
+								$nome_prod = $res_prod[0]['nome'];
+								$valor_prod = $res_prod[0]['valor_venda'];
+								$total_produtos += $valor_prod;
 
-					</table>
-				</small>
-				<?php }else{
-					$total_pagar = $valor_orc;
-					$total_pagar_f = number_format($total_pagar, 2, ',', '.');
-
-				} 
-
-
-				$total_pgto = $total_prod + $total_ser + $valor_orc;
-				$total_pgto_f = number_format($total_pgto, 2, ',', '.');
-
-
-			} ?>
-
-				<hr>
-				
-
-
-
-
-				<div class="row">
-					<div class="col-md-6" style="width:50%; float:left;">
-
-						<?php if($tipo == 'Orçamento'){ ?>
-							<p style="font-size:13px">  <b>Valor Serviços: </b> R$ <?php echo number_format($total_ser, 2, ',', '.') ?> </p>
-						<p style="font-size:13px">  <b>Valor Peças / Produtos: </b> R$ <?php echo $total_prod_f; ?> </p><?php } ?>
-						<p style="font-size:13px">  <b>Valor Mão de Obra: </b> R$ <?php echo $valor_orc_f; ?> </p>
-						<p style="font-size:13px">  <b>Mecânico: </b> <?php echo $nome_mecanico; ?>  </p>
-						<p style="font-size:13px">  <b>Concluída: </b> <?php echo $concluido; ?>  </p>
-						
-
-					</div>
-					<div class="col-md-4 areaTotal" align="right"  style="width:40%; float:right;">	
-
-						<?php if($tipo == 'Orçamento'){ ?>
-						<p class="pgto" style="font-size:16px">  <b>Total a Pagar: </b> R$ <?php echo $total_pgto_f; ?>  </p>
-						<p class="pgto" style="font-size:12px">  Previsão de Entrega: <?php echo $data_entrega; ?> <br> 
-							 </p>
-							<?php }else{ ?>
-
-								<p class="pgto" style="font-size:16px">  <b>Total a Pagar: </b> R$ <?php echo $valor_orc_f; ?>  </p>
-						<p class="pgto" style="font-size:12px">  Previsão de Entrega: <?php echo $data_entrega; ?> <br> 
-							 </p>
-
+								$valor_prod_f = number_format($valor_prod, 2, ',', '.');
+							?>
+								<tr>
+									<td><?php echo $nome_prod ?></td>
+									<td>R$ <?php echo $valor_prod_f ?></td>
+									<td>1</td>
+									<td>R$ <?php echo $valor_prod_f ?></td>
+								</tr>
 							<?php } ?>
+						</tbody>
+					</table>
+				<?php } else { ?>
+					<div class="no-service">Nenhum produto cadastrado</div>
+				<?php } ?>
+			</div>
+		<?php } ?>
 
-							</div>
+		<!-- RESUMO FINAL -->
+		<div class="row mt-4">
+			<div class="col-md-6">
+				<div class="mb-3">
+					<p><span class="info-label">Mecânico:</span> <span
+							class="info-value"><?php echo $nome_mecanico ?></span></p>
+				</div>
+				<?php if ($garantia > 0) { ?>
+					<div class="mb-3">
+						<p><span class="info-label">Garantia:</span> <span class="info-value"><?php echo $garantia ?>
+								dias</span></p>
+					</div>
+				<?php } ?>
+				<div class="mb-3">
+					<p><span class="info-label">Previsão de Entrega:</span> <span
+							class="info-value"><?php echo $data_entrega ?></span></p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="total-box">
+					<div class="row">
+						<div class="col-md-6">
+							<p><span class="info-label">Serviços:</span></p>
+							<?php if ($tipo == 'Orçamento') { ?>
+								<p><span class="info-label">Produtos:</span></p>
+							<?php } ?>
+							<p><span class="info-label">Mão de Obra:</span></p>
+						</div>
+						<div class="col-md-6 text-end">
+							<p>R$ <?php echo isset($total_servicos) && is_numeric($total_servicos) ? number_format($total_servicos, 2, ',', '.') : '0,00' ?></p>
+							<?php if ($tipo == 'Orçamento') { ?>
+								<p>R$ <?php echo isset($total_produtos) && is_numeric($total_produtos) ? number_format($total_produtos, 2, ',', '.') : '0,00' ?></p>
+							<?php } ?>
+							<p>R$ <?php echo $valor_orc_f ?></p>
+						</div>
+					</div>
+					<hr>
+					<div class="row">
+						<div class="col-md-6">
+							<p class="total-amount">Total:</p>
+						</div>
+						<div class="col-md-6 text-end">
+							<p class="total-amount">
+								R$ <?php
+									$total_servicos = isset($total_servicos) && is_numeric($total_servicos) ? $total_servicos : 0;
+									$total_produtos = isset($total_produtos) && is_numeric($total_produtos) ? $total_produtos : 0;
+									$valor_orc = isset($valor_orc) && is_numeric($valor_orc) ? $valor_orc : 0;
+
+									$total_geral = $total_servicos + ($tipo == 'Orçamento' ? $total_produtos : 0) + $valor_orc;
+
+									echo number_format($total_geral, 2, ',', '.');
+									?>
+							</p>
 
 
 						</div>
-
-
-
-						<br><br><br>
-
-
-
-
-
 					</div>
+				</div>
+			</div>
+		</div>
 
+		<div class="signature-area">
+			<div class="row">
+				<div class="col-md-6">
+					<p><strong>Responsável Técnico:</strong> <?php echo $nome_mecanico ?></p>
+				</div>
+				<div class="col-md-6 text-end">
+					<div class="signature-line">Assinatura do Cliente</div>
+				</div>
+			</div>
+		</div>
 
-					<div class="footer">
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
+		<div class="footer">
+			<?php echo $rodape_relatorios ?>
+		</div>
 	</div>
 
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-
-
-				</body>
-				</html>
+</html>

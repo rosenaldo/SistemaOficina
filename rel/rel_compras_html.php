@@ -7,296 +7,227 @@ require_once("data_formatada.php");
 $dataInicial = $_GET['dataInicial'];
 $dataFinal = $_GET['dataFinal'];
 
-
 $dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
 $dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
 
-
-
 if($dataInicial != $dataFinal){
-	$apuracao = $dataInicialF. ' até '. $dataFinalF;
+    $apuracao = $dataInicialF. ' até '. $dataFinalF;
 }else{
-	$apuracao = $dataInicialF;
+    $apuracao = $dataInicialF;
 }
-
-
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-	<title>Relatório de Compras</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Compras</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    @page {
+        margin: 0;
+        size: A4;
+    }
 
-	<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
 
-		@page {
-			margin: 0px;
+    .header {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 30px;
+    }
 
-		}
+    .logo {
+        max-width: 150px;
+        height: auto;
+    }
 
-		.footer {
-			margin-top:20px;
-			width:100%;
-			background-color: #ebebeb;
-			padding:10px;
-			position:relative;
-			bottom:0;
-		}
+    .company-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
 
-		.cabecalho {    
-			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
-		}
+    .company-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
 
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+    .document-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
 
-		}
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 20px 0 10px;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 5px;
+    }
 
-		.subtitulo{
-			margin:0;
-			font-size:17px;
-			font-family:Arial, Helvetica, sans-serif;
-		}
+    .info-label {
+        font-weight: 600;
+        color: #7f8c8d;
+    }
 
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
-		}
+    .info-value {
+        color: #2c3e50;
+    }
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			background-color: #f9f9f9;
-			margin-top:2px;
-		}
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
 
-		.pgto{
-			margin:1px;
-		}
+    .report-table th {
+        background-color: #f8f9fa;
+        text-align: left;
+        padding: 12px;
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+    }
 
-		.fonte13{
-			font-size:13px;
-		}
+    .report-table td {
+        padding: 10px 12px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
-		}
+    .total-box {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+        text-align: right;
+        font-weight: 600;
+        font-size: 16px;
+        border: 1px solid #e9ecef;
+    }
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
-		}
+    .footer {
+        margin-top: 40px;
+        padding: 15px 0;
+        border-top: 2px solid #e9ecef;
+        text-align: center;
+        font-size: 12px;
+        color: #7f8c8d;
+    }
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
-		}
+    .period-info {
+        background-color: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin: 15px 0;
+        display: inline-block;
+    }
 
-		.texto-tabela{
-			font-size:12px;
-		}
-
-
-		.esquerda_float{
-
-			margin-bottom:10px;
-			float:left;
-			display:inline;
-		}
-
-
-		.titulos{
-			margin-top:10px;
-		}
-
-		.image{
-			margin-top:-10px;
-		}
-
-		.margem-direita{
-			margin-right: 80px;
-		}
-
-		.margem-direita50{
-			margin-right: 50px;
-		}
-
-		hr{
-			margin:8px;
-			padding:1px;
-		}
-
-
-		.titulorel{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
-
-		}
-
-		.margem-superior{
-			margin-top:30px;
-		}
-
-
-	</style>
-
+    .currency {
+        text-align: right;
+    }
+    </style>
 </head>
+
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <!-- <img src="../../img/logo2.png" alt="Logo" class="logo"> -->
+                </div>
+                <div class="col-md-10">
+                    <div class="company-name"><?php echo strtoupper($nome_oficina) ?></div>
+                    <div class="company-info">
+                        <?php echo $endereco_oficina ?> | Tel: <?php echo $telefone_oficina ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="document-title">Relatório de Compras</h1>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="text-muted">Data: <?php echo $data_hoje ?></div>
+            </div>
+        </div>
 
-	<div class="cabecalho">
-		<div class="container">
-			<div class="row titulos">
-				<div class="col-sm-2 esquerda_float image">	
-					<!-- <img src="../img/logo2.png" width="100px"> -->
-				</div>
-				<div class="col-sm-10 esquerda_float">	
-					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
-					<h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
+        <div class="period-info">
+            <span class="info-label">Período da Apuração:</span> 
+            <span class="info-value"><?php echo $apuracao ?></span>
+        </div>
 
-				</div>
-			</div>
-		</div>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th width="40%">Produto</th>
+                    <th width="20%" class="currency">Valor</th>
+                    <th width="25%">Funcionário</th>
+                    <th width="15%">Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $saldo = 0;
+                
+                $query = $pdo->query("SELECT * FROM compras where data >= '$dataInicial' and data <= '$dataFinal' order by data asc, id asc");
+                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                
+                for ($i=0; $i < @count($res); $i++) { 
+                    $produto = $res[$i]['produto'];
+                    $valor = $res[$i]['valor'];
+                    $funcionario = $res[$i]['funcionario'];
+                    $data = $res[$i]['data'];
+                    $id = $res[$i]['id'];
+                    
+                    $saldo = $saldo + $valor;
+                    $saldoF = number_format($saldo, 2, ',', '.');
+                    
+                    $query_prod = $pdo->query("SELECT * FROM produtos where id = '$produto' ");
+                    $res_prod = $query_prod->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_produto = @$res_prod[0]['nome'];
 
-	</div>
+                    $query_usu = $pdo->query("SELECT * FROM usuarios where cpf = '$funcionario' ");
+                    $res_usu = $query_usu->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_funcionario = @$res_usu[0]['nome'];
 
-	<div class="container">
+                    $valorF = number_format($valor, 2, ',', '.');
+                    $data = implode('/', array_reverse(explode('-', $data)));
+                ?>
+                <tr>
+                    <td><?php echo $nome_produto ?></td>
+                    <td class="currency">R$ <?php echo $valorF ?></td>
+                    <td><?php echo $nome_funcionario ?></td>
+                    <td><?php echo $data ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
 
-		<div class="row">
-			<div class="col-sm-8 esquerda">	
-				<span class="titulorel"> Relatório de Compras </span>
-			</div>
-			<div class="col-sm-4 direita" align="right">	
-				<big> <small> Data: <?php echo $data_hoje; ?></small> </big>
-			</div>
-		</div>
+        <div class="total-box">
+            Total: R$ <?php echo number_format($saldo, 2, ',', '.') ?>
+        </div>
 
+        <div class="footer">
+            <?php echo $rodape_relatorios ?>
+        </div>
+    </div>
 
-		<hr>
-
-
-
-		<div class="row margem-superior">
-			<div class="col-md-12">
-				<div class="esquerda_float margem-direita50">	
-					<span class=""> <b> Período da Apuração </b> </span>
-				</div>
-				<div class="esquerda_float margem-direita50">	
-					<span class=""> <?php echo $apuracao ?> </span>
-				</div>
-				
-			</div>
-		</div>
-
-
-		<hr>
-
-
-		<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-			<tr bgcolor='#f9f9f9' >
-				<th>Produto</th>
-						<th>Valor</th>
-						<th>Funcionário</th>
-						<th>Data</th>
-
-			</tr>
-			<?php 
-			$saldo = 0;
-			
-			$query = $pdo->query("SELECT * FROM compras where data >= '$dataInicial' and data <= '$dataFinal' order by data asc, id asc");
-					$res = $query->fetchAll(PDO::FETCH_ASSOC);
-					
-					for ($i=0; $i < @count($res); $i++) { 
-						foreach ($res[$i] as $key => $value) {
-						}
-						$produto = $res[$i]['produto'];
-						$valor = $res[$i]['valor'];
-						$funcionario = $res[$i]['funcionario'];
-						$data = $res[$i]['data'];
-						$id = $res[$i]['id'];
-						
-						$saldo = $saldo + $valor;
-						$saldoF = number_format($saldo, 2, ',', '.');
-						
-						
-
-						$query_prod = $pdo->query("SELECT * FROM produtos where id = '$produto' ");
-						$res_prod = $query_prod->fetchAll(PDO::FETCH_ASSOC);
-						$nome_produto = @$res_prod[0]['nome'];
-
-						$query_usu = $pdo->query("SELECT * FROM usuarios where cpf = '$funcionario' ");
-						$res_usu = $query_usu->fetchAll(PDO::FETCH_ASSOC);
-						$nome_funcionario = @$res_usu[0]['nome'];
-
-
-						$valorF = number_format($valor, 2, ',', '.');
-						
-						$data = implode('/', array_reverse(explode('-', $data)));
-				?>
-
-				<tr>
-					
-					<td><?php echo $nome_produto ?></td>
-							<td>R$ <?php echo $valor ?></td>
-							<td><?php echo $nome_funcionario ?></td>
-							<td><?php echo $data ?></td>
-							
-
-
-				</tr>
-			<?php } ?>
-
-
-
-		</table>
-
-		<hr>
-
-
-		<div class="row margem-superior">
-			<div class="col-md-12">
-				<div class="" align="right">
-								
-					<span class="areaTotal"> <b> Total : R$ <?php echo @$saldoF ?> </b> </span>
-				</div>
-
-			</div>
-		</div>
-
-		<hr>
-
-
-	</div>
-
-
-	<div class="footer">
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
-	</div>
-
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

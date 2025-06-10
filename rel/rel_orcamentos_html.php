@@ -13,356 +13,313 @@ $dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
 $dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
 
 if($status == 'Aberto'){
-	$status_serv = 'Aberto';
+    $status_serv = 'Aberto';
 }else if($status == 'Aprovado'){
-	$status_serv = 'Aprovado';
+    $status_serv = 'Aprovado';
 }else if($status == 'Concluído'){
-	$status_serv = 'Concluído';
+    $status_serv = 'Concluído';
 }else{
-	$status_serv = '';
+    $status_serv = '';
 }
-
 
 if($dataInicial != $dataFinal){
-	$apuracao = $dataInicialF. ' até '. $dataFinalF;
+    $apuracao = $dataInicialF. ' até '. $dataFinalF;
 }else{
-	$apuracao = $dataInicialF;
+    $apuracao = $dataInicialF;
 }
-
-
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-	<title>Relatório de Orçamentos</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Orçamentos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    @page {
+        margin: 0;
+        size: A4;
+    }
 
-	<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
 
-		@page {
-			margin: 0px;
+    .header {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 30px;
+    }
 
-		}
+    .logo {
+        max-width: 150px;
+        height: auto;
+    }
 
-		.footer {
-			margin-top:20px;
-			width:100%;
-			background-color: #ebebeb;
-			padding:10px;
-			position:relative;
-			bottom:0;
-		}
+    .company-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
 
-		.cabecalho {    
-			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
-		}
+    .company-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
 
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+    .document-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
 
-		}
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 20px 0 10px;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 5px;
+    }
 
-		.subtitulo{
-			margin:0;
-			font-size:17px;
-			font-family:Arial, Helvetica, sans-serif;
-		}
+    .info-label {
+        font-weight: 600;
+        color: #7f8c8d;
+        display: inline-block;
+        width: 150px;
+    }
 
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
-		}
+    .info-value {
+        color: #2c3e50;
+    }
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			background-color: #f9f9f9;
-			margin-top:2px;
-		}
+    .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-		.pgto{
-			margin:1px;
-		}
+    .report-table th {
+        background-color: #f8f9fa;
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+    }
 
-		.fonte13{
-			font-size:13px;
-		}
+    .report-table td {
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        font-size: 14px;
+    }
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
-		}
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
-		}
+    .status-aberto {
+        background-color: #ffebee;
+        color: #c62828;
+    }
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
-		}
+    .status-aprovado {
+        background-color: #e3f2fd;
+        color: #1565c0;
+    }
 
-		.texto-tabela{
-			font-size:12px;
-		}
+    .status-concluido {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
 
+    .footer {
+        margin-top: 40px;
+        padding: 15px 0;
+        border-top: 2px solid #e9ecef;
+        text-align: center;
+        font-size: 12px;
+        color: #7f8c8d;
+    }
 
-		.esquerda_float{
+    .total-box {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        text-align: right;
+        font-weight: 600;
+        font-size: 16px;
+    }
 
-			margin-bottom:10px;
-			float:left;
-			display:inline;
-		}
+    .period-info {
+        background-color: #f5f5f5;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin: 15px 0;
+    }
 
+    .period-label {
+        font-weight: 600;
+        margin-right: 10px;
+    }
 
-		.titulos{
-			margin-top:10px;
-		}
-
-		.image{
-			margin-top:-10px;
-		}
-
-		.margem-direita{
-			margin-right: 80px;
-		}
-
-		.margem-direita50{
-			margin-right: 50px;
-		}
-
-		hr{
-			margin:8px;
-			padding:1px;
-		}
-
-
-		.titulorel{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
-
-		}
-
-		.margem-superior{
-			margin-top:30px;
-		}
-
-
-	</style>
-
+    .text-money {
+        font-weight: 600;
+        color: #2e7d32;
+    }
+    </style>
 </head>
+
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <!-- <img src="../../img/logo2.png" alt="Logo" class="logo"> -->
+                </div>
+                <div class="col-md-10">
+                    <div class="company-name"><?php echo strtoupper($nome_oficina) ?></div>
+                    <div class="company-info">
+                        <?php echo $endereco_oficina ?> | Tel: <?php echo $telefone_oficina ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="document-title">RELATÓRIO DE ORÇAMENTOS <?php echo $status_serv ? strtoupper($status_serv) : '' ?></h1>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="text-muted">Data: <?php echo $data_hoje ?></div>
+            </div>
+        </div>
 
-	<div class="cabecalho">
-		<div class="container">
-			<div class="row titulos">
-				<div class="col-sm-2 esquerda_float image">	
-					<!-- <img src="../img/logo2.png" width="100px"> -->
-				</div>
-				<div class="col-sm-10 esquerda_float">	
-					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
-					<h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
+        <div class="period-info">
+            <span class="period-label">Período da Apuração:</span>
+            <span><?php echo $apuracao ?></span>
+        </div>
 
-				</div>
-			</div>
-		</div>
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th width="20%">Cliente</th>
+                    <th width="15%">Veículo</th>
+                    <th width="12%">Valor</th>
+                    <th width="15%">Serviço</th>
+                    <th width="10%">Data</th>
+                    <th width="15%">Mecânico</th>
+                    <th width="13%">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $totalValores = 0;
+                $total_prod = 0;
+                $total_prod_mao = 0;
+                $totalValoresF = 0;
+                $query = $pdo->query("SELECT * FROM orcamentos where data >= '$dataInicial' and data <= '$dataFinal' and status LIKE '$status_like' order by data asc, id asc ");
+                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                
+                for ($i=0; $i < @count($res); $i++) { 
+                    foreach ($res[$i] as $key => $value) {
+                    }
+                    $cliente = $res[$i]['cliente'];
+                    $veiculo = $res[$i]['veiculo'];
+                    $descricao = $res[$i]['descricao'];
+                    $valor = $res[$i]['valor'];
+                    $servico = $res[$i]['servico'];
+                    $data = $res[$i]['data'];
+                    $data_entrega = $res[$i]['data_entrega'];
+                    $garantia = $res[$i]['garantia'];
+                    $mecanico = $res[$i]['mecanico'];
+                    $status = $res[$i]['status'];
+                    $id = $res[$i]['id'];
 
-	</div>
+                    $query_p = $pdo->query("SELECT * FROM orc_prod where orcamento = '$id' ");
+                    $res_p = $query_p->fetchAll(PDO::FETCH_ASSOC);
 
-	<div class="container">
+                    for ($i2=0; $i2 < @count($res_p); $i2++) { 
+                        foreach ($res_p[$i2] as $key => $value) {
+                        }
+                        $prod = $res_p[$i2]['produto'];
 
-		<div class="row">
-			<div class="col-sm-8 esquerda">	
-				<span class="titulorel"> Relatório de Orçamentos <?php echo $status_serv ?> </span>
-			</div>
-			<div class="col-sm-4 direita" align="right">	
-				<big> <small> Data: <?php echo $data_hoje; ?></small> </big>
-			</div>
-		</div>
+                        $query_pro = $pdo->query("SELECT * FROM produtos where id = '$prod' ");
+                        $res_pro = $query_pro->fetchAll(PDO::FETCH_ASSOC);
+                    
+                        $valor_prod = $res_pro[0]['valor_venda'];
+                        $total_prod = $valor_prod + $total_prod;
+                    }
 
+                    $total_prod_mao = $total_prod + $valor;
+                    $totalValores = $total_prod_mao + $totalValores;
+                    $totalValoresF = number_format($totalValores, 2, ',', '.');
+                    $total_prod_maoF = number_format($total_prod_mao, 2, ',', '.');
 
-		<hr>
+                    $data = implode('/', array_reverse(explode('-', $data)));
+                    $valor = number_format($valor, 2, ',', '.');
 
+                    $query_cat = $pdo->query("SELECT * FROM clientes where cpf = '$cliente' ");
+                    $res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_cli = $res_cat[0]['nome'];
+                    $email_cli = $res_cat[0]['email'];
 
+                    $query_cat = $pdo->query("SELECT * FROM veiculos where id = '$veiculo' ");
+                    $res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
+                    $modelo = $res_cat[0]['modelo'];
+                    $marca = $res_cat[0]['marca'];
 
-		<div class="row margem-superior">
-			<div class="col-md-12">
-				<div class="esquerda_float margem-direita50">	
-					<span class=""> <b> Período da Apuração </b> </span>
-				</div>
-				<div class="esquerda_float margem-direita50">	
-					<span class=""> <?php echo $apuracao ?> </span>
-				</div>
-				
-			</div>
-		</div>
+                    $query_cat = $pdo->query("SELECT * FROM servicos where id = '$servico' ");
+                    $res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_serv = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : null;
 
+                    $query_cat = $pdo->query("SELECT * FROM mecanicos where cpf = '$mecanico' ");
+                    $res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_mecanico = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : null;
 
-		<hr>
+                    $status_class = '';
+                    if($status == 'Aberto'){
+                        $status_class = 'status-aberto';
+                    }else if($status == 'Aprovado'){
+                        $status_class = 'status-aprovado';
+                    }else if($status == 'Concluído'){
+                        $status_class = 'status-concluido';
+                    }
+                ?>
+                <tr>
+                    <td><?php echo $nome_cli ?></td>
+                    <td><?php echo $marca .' '.$modelo ?></td>
+                    <td class="text-money">R$ <?php echo $total_prod_maoF ?></td>
+                    <td><?php echo $nome_serv ?></td>
+                    <td><?php echo $data ?></td>
+                    <td><?php echo $nome_mecanico ?></td>
+                    <td><span class="status-badge <?php echo $status_class ?>"><?php echo $status ?></span></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
 
+        <div class="total-box">
+            <span>Total de Serviços: <span class="text-money">R$ <?php echo $totalValoresF ?></span></span>
+        </div>
 
-		<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-			<tr bgcolor='#f9f9f9' >
-				<th><b>Cliente</b></th>
-						<th><b>Veículo</b></th>
-						<th><b>Valor</b></th>
-						<th><b>Serviço</b></th>
-						<th><b>Data</b></th>
-						<th><b>Mecânico</b></th>
-						<th><b>Status</b></th>
+        <div class="footer">
+            <?php echo $rodape_relatorios ?>
+        </div>
+    </div>
 
-			</tr>
-
-			<?php 
-					$totalValores = 0;
-					$total_prod = 0;
-					$total_prod_mao = 0;
-					$totalValoresF = 0;
-					$query = $pdo->query("SELECT * FROM orcamentos where data >= '$dataInicial' and data <= '$dataFinal' and status LIKE '$status_like' order by data asc, id asc ");
-					$res = $query->fetchAll(PDO::FETCH_ASSOC);
-					
-					for ($i=0; $i < @count($res); $i++) { 
-						foreach ($res[$i] as $key => $value) {
-						}
-						$cliente = $res[$i]['cliente'];
-						$veiculo = $res[$i]['veiculo'];
-						$descricao = $res[$i]['descricao'];
-						$valor = $res[$i]['valor'];
-						$servico = $res[$i]['servico'];
-						$data = $res[$i]['data'];
-						$data_entrega = $res[$i]['data_entrega'];
-						$garantia = $res[$i]['garantia'];
-						$mecanico = $res[$i]['mecanico'];
-						$status = $res[$i]['status'];
-						$id = $res[$i]['id'];
-
-
-						$query_p = $pdo->query("SELECT * FROM orc_prod where orcamento = '$id' ");
-						$res_p = $query_p->fetchAll(PDO::FETCH_ASSOC);
-
-						for ($i2=0; $i2 < @count($res_p); $i2++) { 
-							foreach ($res_p[$i2] as $key => $value) {
-							}
-							$prod = $res_p[$i2]['produto'];
-
-							$query_pro = $pdo->query("SELECT * FROM produtos where id = '$prod' ");
-							$res_pro = $query_pro->fetchAll(PDO::FETCH_ASSOC);
-						
-							$valor_prod = $res_pro[0]['valor_venda'];
-							$total_prod = $valor_prod + $total_prod;
-						}
-
-						$total_prod_mao = $total_prod + $valor;
-						$totalValores = $total_prod_mao + $totalValores;
-						$totalValoresF = number_format($totalValores, 2, ',', '.');
-						$total_prod_maoF = number_format($total_prod_mao, 2, ',', '.');
-
-						$data = implode('/', array_reverse(explode('-', $data)));
-						$valor = number_format($valor, 2, ',', '.');
-
-
-						$query_cat = $pdo->query("SELECT * FROM clientes where cpf = '$cliente' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_cli = $res_cat[0]['nome'];
-						$email_cli = $res_cat[0]['email'];
-
-						$query_cat = $pdo->query("SELECT * FROM veiculos where id = '$veiculo' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$modelo = $res_cat[0]['modelo'];
-						$marca = $res_cat[0]['marca'];
-
-						$query_cat = $pdo->query("SELECT * FROM servicos where id = '$servico' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_serv = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : null;
-
-						$query_cat = $pdo->query("SELECT * FROM mecanicos where cpf = '$mecanico' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_mecanico = !empty($res_cat[0]['nome']) ? $res_cat[0]['nome'] : null;
-
-						if($status == 'Aberto'){
-							$cor_pago = 'text-danger';
-							$img = 'vermelho';
-						}else if($status == 'Aprovado'){
-							$cor_pago = 'text-primary';
-							$img = 'azul';
-						}else{
-							$cor_pago = 'text-success';
-							$img = 'verde';
-						}
-
-
-
-
-						?>
-
-						<tr>
-							<td>
-								<img src="../img/<?php echo $img ?>.jpg" width="13px">
-								<?php echo $nome_cli ?>
-									
-								</td>
-							<td><?php echo $marca .' '.$modelo ?></td>
-							<td>R$ <?php echo $total_prod_maoF ?></td>
-							<td><?php echo $nome_serv ?></td>
-							<td><?php echo $data ?></td>
-							<td><?php echo $nome_mecanico ?></td>
-							<td><?php echo $status ?></td>
-							
-							
-						</tr>
-					<?php } ?>
-
-
-
-		</table>
-
-		<hr>
-
-
-		<div class="row margem-superior">
-			<div class="col-md-12">
-				<div class="" align="right">	
-					<span class="areaTotal"> <b> Total de Serviços : R$ <?php echo $totalValoresF ?> </b> </span>
-				</div>
-								
-			</div>
-		</div>
-
-		<hr>
-
-
-	</div>
-
-
-	<div class="footer">
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
-	</div>
-
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -5,279 +5,229 @@ require_once("data_formatada.php");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-	<title>Catálogo de Produtos</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+    @page {
+        margin: 0;
+        size: A4;
+    }
 
-	<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
 
-		@page {
-			margin: 0px;
+    .header {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 30px;
+    }
 
-		}
+    .logo {
+        max-width: 150px;
+        height: auto;
+    }
 
-		.footer {
-			margin-top:20px;
-			width:100%;
-			background-color: #ebebeb;
-			padding:10px;
-			position:relative;
-			bottom:0;
-		}
+    .company-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 5px;
+    }
 
-		.cabecalho {    
-			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
-		}
+    .company-info {
+        font-size: 14px;
+        color: #7f8c8d;
+    }
 
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+    .document-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
 
-		}
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c3e50;
+        margin: 20px 0 10px;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 5px;
+    }
 
-		.subtitulo{
-			margin:0;
-			font-size:17px;
-			font-family:Arial, Helvetica, sans-serif;
-		}
+    .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
 
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
-		}
+    .product-table th {
+        background-color: #f8f9fa;
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+    }
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
-			padding: 15px;
-			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			background-color: #f9f9f9;
-			margin-top:2px;
-		}
+    .product-table td {
+        padding: 10px;
+        border: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
 
-		.pgto{
-			margin:1px;
-		}
+    .product-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
 
-		.fonte13{
-			font-size:13px;
-		}
+    .low-stock {
+        color: #dc3545;
+        font-weight: 600;
+    }
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
-		}
+    .footer {
+        margin-top: 40px;
+        padding: 15px 0;
+        border-top: 2px solid #e9ecef;
+        text-align: center;
+        font-size: 12px;
+        color: #7f8c8d;
+    }
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
-		}
+    .summary-card {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        border: 1px solid #e9ecef;
+    }
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
-		}
+    .text-danger {
+        color: #dc3545;
+    }
 
-		.texto-tabela{
-			font-size:12px;
-		}
+    .text-success {
+        color: #28a745;
+    }
 
-
-		.esquerda_float{
-
-			margin-bottom:10px;
-			float:left;
-			display:inline;
-		}
-
-
-		.titulos{
-			margin-top:10px;
-		}
-
-		.image{
-			margin-top:-10px;
-		}
-
-		.margem-direita{
-			margin-right: 80px;
-		}
-
-		.margem-direita50{
-			margin-right: 50px;
-		}
-
-		hr{
-			margin:8px;
-			padding:1px;
-		}
-
-
-		.titulorel{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
-
-		}
-
-		.margem-superior{
-			margin-top:30px;
-		}
-
-
-	</style>
-
+    .currency {
+        text-align: right;
+    }
+    </style>
 </head>
+
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="row align-items-center">
+                <div class="col-md-2">
+                    <!-- <img src="../img/logo2.png" alt="Logo" class="logo"> -->
+                </div>
+                <div class="col-md-10">
+                    <div class="company-name"><?php echo strtoupper($nome_oficina) ?></div>
+                    <div class="company-info">
+                        <?php echo $endereco_oficina ?> | Tel: <?php echo $telefone_oficina ?>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <h1 class="document-title">CATÁLOGO DE PRODUTOS</h1>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="text-muted">Data: <?php echo $data_hoje ?></div>
+            </div>
+        </div>
 
-	<div class="cabecalho">
-		<div class="container">
-			<div class="row titulos">
-				<div class="col-sm-2 esquerda_float image">	
-					<!-- <img src="../img/logo2.png" width="100px"> -->
-				</div>
-				<div class="col-sm-10 esquerda_float">	
-					<h2 class="titulo"><b><?php echo strtoupper($nome_oficina) ?></b></h2>
-					<h6 class="subtitulo"><?php echo $endereco_oficina . ' Tel: '.$telefone_oficina  ?></h6>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th width="20%">Nome</th>
+                    <th width="15%">Categoria</th>
+                    <th width="15%">Fornecedor</th>
+                    <th width="10%">Fabricante</th>
+                    <th width="10%" class="currency">Compra</th>
+                    <th width="10%" class="currency">Venda</th>
+                    <th width="10%">Estoque</th>
+                    <th width="10%">Imagem</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                $query = $pdo->query("SELECT * FROM produtos ORDER BY estoque ASC");
+                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                $totalProdutos = @count($res);
+                
+                for ($i=0; $i < @count($res); $i++) { 
+                    $nome = $res[$i]['nome'];
+                    $categoria = $res[$i]['categoria'];
+                    $fornecedor = $res[$i]['fornecedor'];
+                    $fabricante = $res[$i]['fabricante'];
+                    $valor_compra = $res[$i]['valor_compra'];
+                    $valor_venda = $res[$i]['valor_venda'];
+                    $estoque = $res[$i]['estoque'];
+                    $descricao = $res[$i]['descricao'];
+                    $imagem = $res[$i]['imagem'];
+                    $id = $res[$i]['id'];
 
-				</div>
-			</div>
-		</div>
+                    $stock_class = ($estoque < $nivel_estoque) ? 'low-stock' : '';
 
-	</div>
+                    $valor_compra_fmt = number_format($valor_compra, 2, ',', '.');
+                    $valor_venda_fmt = number_format($valor_venda, 2, ',', '.');
 
-	<div class="container">
+                    $query_cat = $pdo->query("SELECT * FROM categorias WHERE id = '$categoria'");
+                    $res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_cate = $res_cat[0]['nome'];
 
-		<div class="row">
-			<div class="col-sm-8 esquerda">	
-				<span class="titulorel"> Lista de Produtos </span>
-			</div>
-			<div class="col-sm-4 direita" align="right">	
-				<big> <small> Data: <?php echo $data_hoje; ?></small> </big>
-			</div>
-		</div>
+                    $query_forn = $pdo->query("SELECT * FROM fornecedores WHERE id = '$fornecedor'");
+                    $res_forn = $query_forn->fetchAll(PDO::FETCH_ASSOC);
+                    $nome_forn = $res_forn[0]['nome'];
+                ?>
+                <tr>
+                    <td><?php echo $nome ?></td>
+                    <td><?php echo $nome_cate ?></td>
+                    <td><?php echo $nome_forn ?></td>
+                    <td><?php echo $fabricante ?></td>
+                    <td class="currency">R$ <?php echo $valor_compra_fmt ?></td>
+                    <td class="currency">R$ <?php echo $valor_venda_fmt ?></td>
+                    <td class="<?php echo $stock_class ?>"><?php echo $estoque ?></td>
+                    <td><img src="../img/produtos/<?php echo $imagem ?>" class="product-image"></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table>
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="summary-card text-end">
+                    <h5>Total de Produtos: <strong><?php echo $totalProdutos ?></strong></h5>
+                    <?php if($totalProdutos == 0): ?>
+                        <div class="alert alert-warning mt-2">Nenhum produto cadastrado</div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
 
-		<hr>
+        <div class="footer">
+            <?php echo $rodape_relatorios ?>
+        </div>
+    </div>
 
-
-
-		<table class='table' width='100%'  cellspacing='0' cellpadding='3'>
-			<tr bgcolor='#f9f9f9' >
-				<th>Nome</th>
-						<th>Categoria</th>
-						<th>Fornecedor</th>
-						<th>Fabricante</th>
-						<th>Valor Compra</th>
-						<th>Valor Venda</th>
-						<th>Estoque</th>
-						<th>Imagem</th>
-
-			</tr>
-			<?php 
-
-					$query = $pdo->query("SELECT * FROM produtos order by estoque asc ");
-					$res = $query->fetchAll(PDO::FETCH_ASSOC);
-					$totalProdutos = @count($res);
-					
-					for ($i=0; $i < @count($res); $i++) { 
-						foreach ($res[$i] as $key => $value) {
-						}
-						$nome = $res[$i]['nome'];
-						$categoria = $res[$i]['categoria'];
-						$fornecedor = $res[$i]['fornecedor'];
-						$fabricante = $res[$i]['fabricante'];
-						$valor_compra = $res[$i]['valor_compra'];
-						$valor_venda = $res[$i]['valor_venda'];
-						$estoque = $res[$i]['estoque'];
-						$descricao = $res[$i]['descricao'];
-						$imagem = $res[$i]['imagem'];
-						$id = $res[$i]['id'];
-
-						if($estoque < $nivel_estoque){
-							$cor = "text-danger";
-						}else{
-							$cor = "";
-						}
-
-						$valor_compra = number_format($valor_compra, 2, ',', '.');
-						$valor_venda = number_format($valor_venda, 2, ',', '.');
-
-						$query_cat = $pdo->query("SELECT * FROM categorias where id = '$categoria' ");
-						$res_cat = $query_cat->fetchAll(PDO::FETCH_ASSOC);
-						$nome_cate = $res_cat[0]['nome'];
-
-						$query_forn = $pdo->query("SELECT * FROM fornecedores where id = '$fornecedor' ");
-						$res_forn = $query_forn->fetchAll(PDO::FETCH_ASSOC);
-						$nome_forn = $res_forn[0]['nome'];
-
-						?>
-
-						<tr>
-							<td><?php echo $nome ?></td>
-							<td><?php echo $nome_cate ?></td>
-							<td>
-								
-									<?php echo $nome_forn ?>
-								
-							</td>
-							<td><?php echo $fabricante ?></td>
-							<td>R$ <?php echo $valor_compra ?></td>
-							<td>R$ <?php echo $valor_venda ?></td>
-							<td><?php echo $estoque ?></td>
-							<td><img src="../img/produtos/<?php echo $imagem ?>" width="50" ></td>
-
-							
-						</tr>
-					<?php } ?>
-
-
-
-		</table>
-
-		<hr>
-
-
-		<div class="row margem-superior">
-			<div class="col-md-12">
-				<div class="" align="right">
-								
-					<span class="areaTotal"> <b> Total de Produtos : R$ <?php echo $totalProdutos ?> </b> </span>
-				</div>
-
-			</div>
-		</div>
-
-		<hr>
-
-
-	</div>
-
-
-	<div class="footer">
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
-	</div>
-
-
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
