@@ -1,10 +1,3 @@
-<?php
-@session_start();
-if(@$_SESSION['nivel_usuario'] == null || @$_SESSION['nivel_usuario'] != 'admin'){
-    echo "<script language='javascript'> window.location='../index.php' </script>";
-}
-?>
-
 <!-- Modal Relatórios - Estilo Unificado -->
 <style>
     /* Estilos para todos os modais de relatório */

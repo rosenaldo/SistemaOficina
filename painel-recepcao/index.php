@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once("../conexao.php");
 @session_start();
 require_once("verificar_usuario.php");
@@ -13,7 +13,7 @@ $cpf_usu = @$res[0]['cpf'];
 $email_usu = @$res[0]['email'];
 
 
-    //variaveis para o menu
+//variaveis para o menu
 $pag = @$_GET["pag"];
 $menu1 = "pagar";
 $menu2 = "receber";
@@ -39,7 +39,7 @@ $menu11 = "retornos";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Hugo Vasconcelos">
 
     <title>Painel Recepção</title>
 
@@ -149,7 +149,7 @@ $menu11 = "retornos";
 
                         <a class="collapse-item" href="index.php?pag=<?php echo $menu10 ?>">Entrada Veículos</a>
 
-                         <a class="collapse-item" href="index.php?pag=<?php echo $menu11 ?>">Serviços Retorno </a>
+                        <a class="collapse-item" href="index.php?pag=<?php echo $menu11 ?>">Serviços Retorno </a>
 
 
                     </div>
@@ -169,23 +169,23 @@ $menu11 = "retornos";
 
                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelServicos">Serviços</a>
 
-                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelOrc">Orçamentos</a>
+                        <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelOrc">Orçamentos</a>
 
-                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelMov">Movimentações</a>
-
-
-                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelPagar">Contas à Pagar</a>
-
-                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelReceber">Contas à Receber</a>
-
-                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelCompras">Compras</a>
+                        <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelMov">Movimentações</a>
 
 
-                         <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelVendas">Vendas</a>
+                        <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelPagar">Contas à Pagar</a>
+
+                        <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelReceber">Contas à Receber</a>
+
+                        <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelCompras">Compras</a>
+
+
+                        <a class="collapse-item" href="" data-toggle="modal" data-target="#ModalRelVendas">Vendas</a>
 
                         <a target="_blank" class="collapse-item" href="../rel/rel_veiculos.php">Veículos Oficina</a>
 
-                         <a target="_blank" class="collapse-item" href="../rel/rel_produtos.php">Catalogo Produtos</a>
+                        <a target="_blank" class="collapse-item" href="../rel/rel_produtos.php">Catalogo Produtos</a>
 
 
 
@@ -222,7 +222,7 @@ $menu11 = "retornos";
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <!-- <img class="" src="../img/logo2.png" width="85"> -->
+                    <img class="" src="../img/logo2.png" width="85">
 
 
 
@@ -261,43 +261,30 @@ $menu11 = "retornos";
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <?php if (@$pag == null) { 
-                        @include_once("home.php"); 
-                        
-                    } else if (@$pag==$menu1) {
-                        @include_once(@$menu1.".php");
-                        
-                    } else if (@$pag==$menu2) {
-                        @include_once(@$menu2.".php");
-
-                    } else if (@$pag==$menu3) {
-                        include_once(@$menu3.".php");
-
-                    } else if (@$pag==$menu4) {
-                        @include_once(@$menu4.".php");
-
-                    } else if (@$pag==$menu5) {
-                        @include_once(@$menu5.".php");
-
-                    } else if (@$pag==$menu6) {
-                        @include_once(@$menu6.".php");
-
-                    } else if (@$pag==$menu7) {
-                        @include_once(@$menu7.".php");
-
-                    } else if (@$pag==$menu8) {
-                        @include_once(@$menu8.".php");
-
-                    } else if (@$pag==$menu9) {
-                        @include_once(@$menu9.".php");
-
-                    } else if (@$pag==$menu10) {
-                        @include_once(@$menu10.".php");
-
-                     } else if (@$pag==$menu11) {
-                        @include_once(@$menu11.".php");
-
-                        
+                    <?php if (@$pag == null) {
+                        @include_once("home.php");
+                    } else if (@$pag == $menu1) {
+                        @include_once(@$menu1 . ".php");
+                    } else if (@$pag == $menu2) {
+                        @include_once(@$menu2 . ".php");
+                    } else if (@$pag == $menu3) {
+                        include_once(@$menu3 . ".php");
+                    } else if (@$pag == $menu4) {
+                        @include_once(@$menu4 . ".php");
+                    } else if (@$pag == $menu5) {
+                        @include_once(@$menu5 . ".php");
+                    } else if (@$pag == $menu6) {
+                        @include_once(@$menu6 . ".php");
+                    } else if (@$pag == $menu7) {
+                        @include_once(@$menu7 . ".php");
+                    } else if (@$pag == $menu8) {
+                        @include_once(@$menu8 . ".php");
+                    } else if (@$pag == $menu9) {
+                        @include_once(@$menu9 . ".php");
+                    } else if (@$pag == $menu10) {
+                        @include_once(@$menu10 . ".php");
+                    } else if (@$pag == $menu11) {
+                        @include_once(@$menu11 . ".php");
                     } else {
                         @include_once("home.php");
                     }
@@ -343,83 +330,80 @@ $menu11 = "retornos";
                 <form id="form-perfil" method="POST" enctype="multipart/form-data">
                     <div class="modal-body">
 
-                     <div class="form-group">
-                        <label >Nome</label>
-                        <input value="<?php echo $nome_usu ?>" type="text" class="form-control" id="nome_usu" name="nome_usu" placeholder="Nome">
-                    </div>
-
-                    <div class="form-group">
-                        <label >CPF</label>
-                        <input value="<?php echo $cpf_usu ?>" type="text" class="form-control" id="cpf" name="cpf_usu" placeholder="CPF">
-                    </div>
-
-                    <div class="form-group">
-                        <label >Email</label>
-                        <input value="<?php echo $email_usu ?>" type="email" class="form-control" id="email_usu" name="email_usu" placeholder="Email">
-                    </div>
-
-                    <div class="form-group">
-                        <label >Senha</label>
-                        <input value="" type="password" class="form-control" id="senha_usu" name="senha_usu" placeholder="Senha">
-                    </div>
-
-
-
-                    <small>
-                        <div id="mensagem" class="mr-4">
-
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input value="<?php echo $nome_usu ?>" type="text" class="form-control" id="nome_usu" name="nome_usu" placeholder="Nome">
                         </div>
-                    </small>
+
+                        <div class="form-group">
+                            <label>CPF</label>
+                            <input value="<?php echo $cpf_usu ?>" type="text" class="form-control" id="cpf" name="cpf_usu" placeholder="CPF">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input value="<?php echo $email_usu ?>" type="email" class="form-control" id="email_usu" name="email_usu" placeholder="Email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Senha</label>
+                            <input value="" type="password" class="form-control" id="senha_usu" name="senha_usu" placeholder="Senha">
+                        </div>
 
 
 
-                </div>
-                <div class="modal-footer">
+                        <small>
+                            <div id="mensagem" class="mr-4">
+
+                            </div>
+                        </small>
 
 
 
-                    <input value="<?php echo $_SESSION['id_usuario'] ?>" type="hidden" name="id_usu" id="id_usu">
-                    <input value="<?php echo $cpf_usu ?>" type="hidden" name="antigo_usu" id="antigo_usu">
-
-                    <button type="button" id="btn-fechar-perfil" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" name="btn-salvar-perfil" id="btn-salvar-perfil" class="btn btn-primary">Salvar</button>
-                </div>
-            </form>
+                    </div>
+                    <div class="modal-footer">
 
 
+
+                        <input value="<?php echo $_SESSION['id_usuario'] ?>" type="hidden" name="id_usu" id="id_usu">
+                        <input value="<?php echo $cpf_usu ?>" type="hidden" name="antigo_usu" id="antigo_usu">
+
+                        <button type="button" id="btn-fechar-perfil" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" name="btn-salvar-perfil" id="btn-salvar-perfil" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+
+
+            </div>
         </div>
     </div>
-</div>
 
 
+    <?php require_once("../modal-relatorios.php"); ?>
 
+    <!-- Core plugin JavaScript-->
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<?php require_once("../modal-relatorios.php"); ?>
+    <!-- Custom scripts for all pages-->
+    <script src="../js/sb-admin-2.min.js"></script>
 
+    <!-- Page level plugins -->
+    <script src="../vendor/chart.js/Chart.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/chart-area-demo.js"></script>
+    <script src="../js/demo/chart-pie-demo.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="../js/sb-admin-2.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="../vendor/chart.js/Chart.min.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="../js/demo/chart-area-demo.js"></script>
-<script src="../js/demo/chart-pie-demo.js"></script>
-
-<!-- Page level plugins -->
-<script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="../js/demo/datatables-demo.js"></script>
-
-<!-- Scripts para Mascara -->
-<script src="../js/mascaras.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <!-- Scripts para Mascara -->
+    <script src="../js/mascaras.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
 
 </body>
 
@@ -432,7 +416,7 @@ $menu11 = "retornos";
 
 <!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM OU SEM IMAGEM -->
 <script type="text/javascript">
-    $("#form-perfil").submit(function () {
+    $("#form-perfil").submit(function() {
 
         event.preventDefault();
         var formData = new FormData(this);
@@ -442,7 +426,7 @@ $menu11 = "retornos";
             type: 'POST',
             data: formData,
 
-            success: function (mensagem) {
+            success: function(mensagem) {
                 $('#mensagem').removeClass()
                 if (mensagem.trim() == "Salvo com Sucesso!") {
                     //$('#nome').val('');
@@ -457,10 +441,10 @@ $menu11 = "retornos";
             cache: false,
             contentType: false,
             processData: false,
-            xhr: function () {  // Custom XMLHttpRequest
+            xhr: function() { // Custom XMLHttpRequest
                 var myXhr = $.ajaxSettings.xhr();
                 if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
-                    myXhr.upload.addEventListener('progress', function () {
+                    myXhr.upload.addEventListener('progress', function() {
                         /* faz alguma coisa durante o progresso do upload */
                     }, false);
                 }
@@ -469,4 +453,3 @@ $menu11 = "retornos";
         });
     });
 </script>
-

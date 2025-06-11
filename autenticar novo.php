@@ -86,4 +86,3 @@ function showErrorAndRedirect($message) {
     echo "<script>alert('".addslashes($message)."'); window.location='index.php';</script>";
     exit();
 }
-
